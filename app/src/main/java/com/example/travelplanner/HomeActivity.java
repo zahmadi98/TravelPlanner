@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -33,6 +34,8 @@ public class HomeActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     NavigationView navigationView;
 
+    ConstraintLayout popupRoot;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +46,7 @@ public class HomeActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        popupRoot = findViewById(R.id.root_home);
 
         setSupportActionBar(toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav, R.string.close_nav);
@@ -124,30 +128,24 @@ public class HomeActivity extends AppCompatActivity {
         videoLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 dialog.dismiss();
-                Toast.makeText(HomeActivity.this,"یک سفر جدید شروع کنید",Toast.LENGTH_SHORT).show();
-
+                loadFragment(new StartJourneyFragment());
             }
         });
 
         shortsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 dialog.dismiss();
-                Toast.makeText(HomeActivity.this,"عکس سفر خود را آپلود کنید",Toast.LENGTH_SHORT).show();
-
+                loadFragment(new UploadPhotoFragment());
             }
         });
 
         liveLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 dialog.dismiss();
-                Toast.makeText(HomeActivity.this,"آلارم خود را تنظیم کنید",Toast.LENGTH_SHORT).show();
-
+                loadFragment(new SetAlarmFragment());
             }
         });
 
@@ -159,10 +157,19 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         dialog.show();
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         dialog.getWindow().setGravity(Gravity.BOTTOM);
-
     }
+    private void loadFragment(Fragment fragment) {
+        popupRoot.setVisibility(View.VISIBLE); // نمایش فرم
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+
 }
