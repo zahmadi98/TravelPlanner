@@ -3,15 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EquipmentFragment">
+    tools:context=".FavoriteFragment">
 
     <!-- TODO: Update blank fragment layout -->
+    <ImageView
+        android:id="@+id/topImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/equipmentbkg"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text='لیست وسایل'
+        android:text="لیست وسایل"
         android:gravity="center"
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:textColor="@color/lavender"/>
 
 </FrameLayout>

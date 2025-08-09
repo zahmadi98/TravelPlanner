@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 public class StartJourneyFragment extends Fragment {
 
     public StartJourneyFragment() {
-        // Constructor باید خالی باشه!
+
     }
 
     @Override
@@ -27,10 +27,8 @@ public class StartJourneyFragment extends Fragment {
 
         View background = requireActivity().findViewById(R.id.root_home);
 
-        // وقتی روی بک‌گراند کلیک شد، مخفی شه
         background.setOnClickListener(v -> {
             background.setVisibility(View.GONE);
-            // و اگه خواستی فرگمنت رو هم از استک برداری:
             requireActivity().getSupportFragmentManager().popBackStack();
         });
     }

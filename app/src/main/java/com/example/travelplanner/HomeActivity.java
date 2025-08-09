@@ -13,7 +13,8 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
+import androidx.activity.OnBackPressedCallback;
+import androidx.activity.OnBackPressedDispatcher;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -58,6 +59,21 @@ public class HomeActivity extends AppCompatActivity {
             navigationView.setCheckedItem(R.id.nav_home);
         }
 
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (popupRoot.getVisibility() == View.VISIBLE) {
+                    // حذف فرگمنت‌های داخل پاپ‌آپ
+                    getSupportFragmentManager().popBackStackImmediate();
+                    // مخفی کردن بک‌گراند
+                    popupRoot.setVisibility(View.GONE);
+                } else {
+                    // اگر پاپ‌آپ باز نیست، رفتار پیش‌فرض
+                    setEnabled(false); // غیرفعال کردن این callback موقت
+                    HomeActivity.super.onBackPressed();
+                }
+            }
+        });
         bottomNavigationView.setBackground(null);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();

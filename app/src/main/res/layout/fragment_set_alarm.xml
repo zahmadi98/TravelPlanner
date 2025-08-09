@@ -1,14 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".SetAlarmFragment">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="0dp"
+        android:layout_weight="0.6"
+        android:orientation="vertical"
+        android:padding="12dp"
+        android:gravity="center_vertical">
 
-</FrameLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="انتخاب سفر:"
+            android:textColor="@color/purple_700"
+            android:textSize="16sp"
+            android:layout_gravity="end" />
+
+        <EditText
+            android:id="@+id/choseTrip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_edittext2"
+            android:drawableLeft="@drawable/baseline_expand_more_24"
+            android:layout_marginTop="10dp"
+            android:padding="8dp"
+            android:textSize="14sp"
+            android:layout_marginBottom="12dp"
+            android:hint="سفر خود را انتخاب کنید" />
+
+        <!-- خط جداکننده -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="20dp"
+            android:background="@android:color/darker_gray"
+            android:layout_marginBottom="12dp" />
+
+        <!-- انتخاب تاریخ -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="انتخاب تاریخ:"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/purple_700"
+            android:textSize="16sp"
+            android:layout_gravity="end" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="12dp">
+
+            <EditText
+                android:id="@+id/startDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edittext2"
+                android:drawableLeft="@drawable/baseline_chevron_left_24"
+                android:textAlignment="center"
+                android:drawableRight="@drawable/baseline_chevron_right_24"
+                android:padding="8dp"
+                android:textSize="14sp"
+                android:hint="تاریخ شروع" />
+
+            <Space
+                android:layout_width="8dp"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/finishDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edittext2"
+                android:drawableLeft="@drawable/baseline_chevron_left_24"
+                android:textAlignment="center"
+                android:drawableRight="@drawable/baseline_chevron_right_24"
+                android:padding="8dp"
+                android:textSize="14sp"
+                android:hint="تاریخ پایان" />
+        </LinearLayout>
+
+        <!-- آلارم -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="20dp">
+
+            <EditText
+                android:id="@+id/showAlarm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edittext2"
+                android:padding="8dp"
+                android:textSize="14sp"
+                android:hint="زمان تنظیم شده در آلارم"
+                android:minHeight="50dp" />
+
+            <Space
+                android:layout_width="8dp"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/btnSetAlarm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="50dp"
+                android:drawableLeft="@drawable/baseline_add_24"
+                android:text="گذاشتن آلارم"
+                android:textSize="14sp"
+                android:padding="8dp"
+                android:background="@drawable/custom_edittext"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <!-- دکمه ثبت -->
+        <Button
+            android:id="@+id/btnSubmitTrip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ثبت سفر"
+            android:layout_marginTop="40dp"
+            android:textSize="16sp"
+            android:padding="10dp"
+            android:background="@drawable/custom_edittext"
+            android:textColor="@color/white" />
+    </LinearLayout>
+</ScrollView>

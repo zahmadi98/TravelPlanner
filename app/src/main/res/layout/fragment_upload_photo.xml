@@ -1,14 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".UploadPhotoFragment">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
 
-</FrameLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="مقصد:"
+            android:textColor="@color/purple_700"
+            android:textSize="16sp"
+            android:layout_gravity="end" />
+
+        <EditText
+            android:id="@+id/editDestination"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_edittext2"
+            android:padding="8dp"
+            android:textSize="14sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="12dp"
+            android:hint="مقصد خود را وارد کنید" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="تعداد نفرات:"
+            android:textColor="@color/purple_700"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"
+            android:layout_gravity="end" />
+
+        <EditText
+            android:id="@+id/editPeopleCount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:background="@drawable/custom_edittext2"
+            android:padding="8dp"
+            android:textSize="14sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="12dp"
+            android:hint="تعداد نقرات را وارد کنید" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="توضیحات:"
+            android:textColor="@color/purple_700"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"
+            android:layout_gravity="end" />
+
+        <EditText
+            android:id="@+id/editDescription"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@drawable/custom_edittext2"
+            android:padding="8dp"
+            android:textSize="14sp"
+            android:layout_marginTop="10dp"
+            android:gravity="top"
+            android:layout_marginBottom="16dp"
+            android:hint="توضیحات اضافی..." />
+
+        <Button
+            android:id="@+id/btnSubmitTrip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ثبت سفر"
+            android:textSize="16sp"
+            android:layout_marginTop="20dp"
+            android:padding="10dp"
+            android:background="@drawable/custom_edittext"
+            android:textColor="@color/white" />
+    </LinearLayout>
+</ScrollView>
