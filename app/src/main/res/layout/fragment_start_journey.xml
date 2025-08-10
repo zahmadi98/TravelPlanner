@@ -17,17 +17,38 @@
             android:textColor="@color/purple_700"
             android:textSize="16sp"
             android:layout_gravity="end" />
-
-        <EditText
-            android:id="@+id/editDestination"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/custom_edittext2"
-            android:padding="8dp"
-            android:textSize="14sp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="12dp"
-            android:hint="مقصد خود را وارد کنید" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="20dp">
+
+            <EditText
+                android:id="@+id/showAlarm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edittext2"
+                android:padding="8dp"
+                android:textSize="14sp"
+                android:hint="مقصد خود را وارد کنید"
+                android:minHeight="50dp" />
+
+            <Space
+                android:layout_width="8dp"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/btnSetAlarm"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:minHeight="50dp"
+                android:drawableRight="@drawable/baseline_add_location_alt_24"
+                android:background="@drawable/custom_edittext"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
 
         <TextView
             android:layout_width="wrap_content"
@@ -48,7 +69,7 @@
             android:textSize="14sp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="12dp"
-            android:hint="تعداد نقرات را وارد کنید" />
+            android:hint="تعداد نفرات را وارد کنید" />
 
         <TextView
             android:layout_width="wrap_content"
