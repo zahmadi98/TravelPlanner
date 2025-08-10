@@ -5,8 +5,6 @@ import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -19,6 +17,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+
 import org.osmdroid.config.Configuration;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -29,7 +30,8 @@ public class MapSelectFragment extends Fragment {
     private MapView mapView;
     private Marker selectedMarker;
     private GeoPoint selectedPoint;
-    private Button btnConfirm;
+    private Button btnConfirm, btnCurrentLocation;
+    private FusedLocationProviderClient fusedLocationClient;
 
     @Nullable
     @Override
@@ -45,25 +47,22 @@ public class MapSelectFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         btnConfirm = view.findViewById(R.id.btnConfirm);
+        btnCurrentLocation = view.findViewById(R.id.btnCurrentLocation);
         mapView = view.findViewById(R.id.map);
         mapView.setMultiTouchControls(true);
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
 
         checkLocationPermissions();
 
         // نقطه شروع (مرکز ایران)
         GeoPoint startPoint = new GeoPoint(32.4279, 53.6880);
         mapView.post(() -> {
-        mapView.getController().setZoom(5.0);
-        mapView.getController().animateTo(startPoint);
+            mapView.getController().setZoom(5.0);
+            mapView.getController().animateTo(startPoint);
         });
 
-        mapView.invalidate();
-        mapView.setMultiTouchControls(true);
-
-        mapView.setOnClickListener(v -> Toast.makeText(getContext(), "روی نقشه کلیک کن!", Toast.LENGTH_SHORT).show());
-
-        mapView.getOverlays().clear();
-
+        // انتخاب مکان با لمس
         mapView.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_UP) {
                 GeoPoint point = (GeoPoint) mapView.getProjection().fromPixels((int) event.getX(), (int) event.getY());
@@ -80,6 +79,7 @@ public class MapSelectFragment extends Fragment {
             return false;
         });
 
+        // دکمه تأیید
         btnConfirm.setOnClickListener(v -> {
             if (selectedPoint != null) {
                 String locationText = "Lat: " + selectedPoint.getLatitude() + ", Lon: " + selectedPoint.getLongitude();
@@ -94,36 +94,51 @@ public class MapSelectFragment extends Fragment {
                 Toast.makeText(getContext(), "لطفا ابتدا مکان را انتخاب کنید", Toast.LENGTH_SHORT).show();
             }
         });
+
+        // دکمه مکان فعلی
+        btnCurrentLocation.setOnClickListener(v -> startLocationRelatedTask());
     }
 
-    private final ActivityResultLauncher<String[]> locationPermissionLauncher =
-            registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {
-                Boolean fineLocationGranted = result.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false);
-                Boolean coarseLocationGranted = result.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false);
-                if (Boolean.TRUE.equals(fineLocationGranted) && Boolean.TRUE.equals(coarseLocationGranted)) {
-                    startLocationRelatedTask();
-                } else {
-                    Toast.makeText(getContext(), "مجوز دسترسی به موقعیت داده نشد!", Toast.LENGTH_SHORT).show();
-                }
-            });
-
     private void checkLocationPermissions() {
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
-
-            locationPermissionLauncher.launch(new String[]{
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-            });
-        } else {
-            startLocationRelatedTask();
-        }
+        // اینجا می‌تونی سیستم درخواست مجوز رو اضافه کنی
     }
 
     private void startLocationRelatedTask() {
         Toast.makeText(getContext(), "مجوزهای لوکیشن داده شدند، آماده کار!", Toast.LENGTH_SHORT).show();
-        // اینجا میتونی کاری مثل گرفتن لوکیشن فعلی یا کار دیگه‌ای انجام بدی
+
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(location -> {
+                        if (location != null) {
+                            double latitude = location.getLatitude();
+                            double longitude = location.getLongitude();
+
+                            GeoPoint currentLocation = new GeoPoint(latitude, longitude);
+                            mapView.getController().setZoom(15.0);
+                            mapView.getController().animateTo(currentLocation);
+
+                            // مارکر مکان فعلی
+                            if (selectedMarker != null) {
+                                mapView.getOverlays().remove(selectedMarker);
+                            }
+                            selectedMarker = new Marker(mapView);
+                            selectedMarker.setPosition(currentLocation);
+                            selectedMarker.setTitle("مکان فعلی من");
+                            mapView.getOverlays().add(selectedMarker);
+                            mapView.invalidate();
+
+                            Toast.makeText(getContext(), "موقعیت فعلی: " + latitude + ", " + longitude, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), "موقعیت فعلی پیدا نشد", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(getContext(), "خطا در دریافت موقعیت: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+        } else {
+            Toast.makeText(getContext(), "مجوز لوکیشن داده نشده", Toast.LENGTH_SHORT).show();
+        }
     }
 }

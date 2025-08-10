@@ -24,14 +24,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         userManager = new UserManager(this);
 
-        // پدینگ برای بار سیستم
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        // ورود به صفحه ثبت‌نام
         TextView signupText = findViewById(R.id.signinText);
         signupText.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, SignupActivity.class);

@@ -18,7 +18,6 @@ public class CustomScrollView extends ScrollView {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         if (ev.getPointerCount() > 1) {
-            // وقتی بیش از یک انگشت لمس کرد، اسکرول ویو رو رویداد رو نگیره، یعنی بزاره پایین تر هندل بشه
             return false;
         }
         return super.onInterceptTouchEvent(ev);

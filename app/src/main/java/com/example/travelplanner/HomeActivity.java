@@ -24,7 +24,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -63,13 +62,12 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void handleOnBackPressed() {
                 if (popupRoot.getVisibility() == View.VISIBLE) {
-                    // حذف فرگمنت‌های داخل پاپ‌آپ
+
                     getSupportFragmentManager().popBackStackImmediate();
-                    // مخفی کردن بک‌گراند
+
                     popupRoot.setVisibility(View.GONE);
                 } else {
-                    // اگر پاپ‌آپ باز نیست، رفتار پیش‌فرض
-                    setEnabled(false); // غیرفعال کردن این callback موقت
+                    setEnabled(false);
                     HomeActivity.super.onBackPressed();
                 }
             }
@@ -179,13 +177,11 @@ public class HomeActivity extends AppCompatActivity {
         dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
     private void loadFragment(Fragment fragment) {
-        popupRoot.setVisibility(View.VISIBLE); // نمایش فرم
+        popupRoot.setVisibility(View.VISIBLE);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .addToBackStack(null)
                 .commit();
     }
-
-
 }

@@ -35,6 +35,7 @@ dependencies {
     implementation libs.constraintlayout
 
     implementation 'org.osmdroid:osmdroid-android:6.1.14'
+    implementation libs.play.services.location
 
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
