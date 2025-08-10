@@ -52,10 +52,13 @@ public class MapSelectFragment extends Fragment {
 
         // نقطه شروع (مرکز ایران)
         GeoPoint startPoint = new GeoPoint(32.4279, 53.6880);
+        mapView.post(() -> {
         mapView.getController().setZoom(5.0);
-        mapView.getController().setCenter(startPoint);
+        mapView.getController().animateTo(startPoint);
+        });
 
         mapView.invalidate();
+        mapView.setMultiTouchControls(true);
 
         mapView.setOnClickListener(v -> Toast.makeText(getContext(), "روی نقشه کلیک کن!", Toast.LENGTH_SHORT).show());
 
@@ -74,7 +77,7 @@ public class MapSelectFragment extends Fragment {
                 mapView.getOverlays().add(selectedMarker);
                 mapView.invalidate();
             }
-            return true;
+            return false;
         });
 
         btnConfirm.setOnClickListener(v -> {

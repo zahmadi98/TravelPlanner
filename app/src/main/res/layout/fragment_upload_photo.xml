@@ -7,79 +7,112 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="12dp">
-
+        android:padding="12dp"
+        android:gravity="center_vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="مقصد:"
+            android:text="انتخاب سفر:"
             android:textColor="@color/purple_700"
             android:textSize="16sp"
             android:layout_gravity="end" />
 
         <EditText
-            android:id="@+id/editDestination"
+            android:id="@+id/choseTrip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/custom_edittext2"
+            android:drawableLeft="@drawable/baseline_expand_more_24"
+            android:layout_marginTop="10dp"
             android:padding="8dp"
             android:textSize="14sp"
-            android:layout_marginTop="10dp"
             android:layout_marginBottom="12dp"
-            android:hint="مقصد خود را وارد کنید" />
+            android:hint="سفر خود را انتخاب کنید" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="تعداد نفرات:"
-            android:textColor="@color/purple_700"
-            android:layout_marginTop="10dp"
-            android:textSize="16sp"
-            android:layout_gravity="end" />
-
-        <EditText
-            android:id="@+id/editPeopleCount"
+        <LinearLayout
+            android:orientation="vertical"
+            android:padding="16dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:background="@drawable/custom_edittext2"
-            android:padding="8dp"
-            android:textSize="14sp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="12dp"
-            android:hint="تعداد نقرات را وارد کنید" />
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="توضیحات:"
-            android:textColor="@color/purple_700"
-            android:layout_marginTop="10dp"
-            android:textSize="16sp"
-            android:layout_gravity="end" />
+            <!-- مربع آپلود عکس -->
+            <FrameLayout
+                android:id="@+id/uploadBox"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/upload_box_border"
+                android:padding="8dp"
+                android:layout_marginBottom="16dp">
 
-        <EditText
-            android:id="@+id/editDescription"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:background="@drawable/custom_edittext2"
-            android:padding="8dp"
-            android:textSize="14sp"
-            android:layout_marginTop="10dp"
-            android:gravity="top"
-            android:layout_marginBottom="16dp"
-            android:hint="توضیحات اضافی..." />
+                <!-- لوگوی آپلود عکس وسط -->
+                <ImageView
+                    android:id="@+id/uploadIcon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/baseline_cloud_upload_24" />
 
-        <Button
-            android:id="@+id/btnSubmitTrip"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ثبت سفر"
-            android:textSize="16sp"
-            android:layout_marginTop="20dp"
-            android:padding="10dp"
-            android:background="@drawable/custom_edittext"
-            android:textColor="@color/white" />
+                <!-- عکس انتخاب شده (اولش مخفی) -->
+                <ImageView
+                    android:id="@+id/uploadedImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone" />
+            </FrameLayout>
+
+            <!-- دکمه انتخاب عکس -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:weightSum="2">
+
+                <Button
+                    android:id="@+id/btnSubmitPhoto"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:padding="10dp"
+                    android:background="@drawable/custom_edittext"
+                    android:text="ثبت عکس"
+                    android:textColor="@color/white"
+                    android:layout_marginEnd="8dp"/>
+
+                <Button
+                    android:id="@+id/btnChoosePhoto"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:padding="10dp"
+                    android:background="@drawable/custom_edittext"
+                    android:text="انتخاب عکس"
+                    android:textColor="@color/white"
+
+                    android:layout_marginStart="8dp" />
+
+
+
+            </LinearLayout>
+
+
+            <!-- نوار پیشرفت آپلود -->
+            <ProgressBar
+                android:id="@+id/uploadProgressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_marginTop="15dp"
+                android:progress="0"
+                android:progressTint="#3F51B5"
+                android:background="#CCCCCC" />
+
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

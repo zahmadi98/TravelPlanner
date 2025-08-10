@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.example.travelplanner.CustomScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -55,7 +56,7 @@
             android:layout_height="wrap_content"
             android:text="تعداد نفرات:"
             android:textColor="@color/purple_700"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:textSize="16sp"
             android:layout_gravity="end" />
 
@@ -97,10 +98,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="ثبت سفر"
-            android:textSize="16sp"
-            android:layout_marginTop="20dp"
+            android:textSize="18sp"
+            android:layout_marginTop="15dp"
             android:padding="10dp"
             android:background="@drawable/custom_edittext"
             android:textColor="@color/white" />
     </LinearLayout>
-</ScrollView>
+</com.example.travelplanner.CustomScrollView>
