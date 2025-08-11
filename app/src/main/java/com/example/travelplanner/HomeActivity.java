@@ -62,22 +62,27 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void handleOnBackPressed() {
                 if (popupRoot.getVisibility() == View.VISIBLE) {
-                    // اگر پاپ‌آپ باز است، آن را ببند و backstack پاپ‌آپ را مدیریت کن
-                    Log.d("BackPressTest", "Back pressed while popup visible, popping popup fragment");
-                    getSupportFragmentManager().popBackStack();
-                    popupRoot.setVisibility(View.GONE);
-                    Log.d("BackPressTest", "Popup closed");
+                    FragmentManager fm = getSupportFragmentManager();
+                    if (fm.getBackStackEntryCount() > 0) {
+                        fm.popBackStack();
+                        // بعد از پاپ کردن بررسی کن آیا fragment دیگه‌ای هست یا نه
+                        fm.executePendingTransactions(); // اجرای فوری تراکنش‌ها
+                        if (fm.getBackStackEntryCount() == 0) {
+                            popupRoot.setVisibility(View.GONE);
+                        }
+                    } else {
+                        popupRoot.setVisibility(View.GONE);
+                    }
                 } else {
-                    // اگر پاپ‌آپ بسته است، بررسی کن آیا می‌شود fragment در frame_layout را بازگرداند؟
                     if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
                         getSupportFragmentManager().popBackStack();
                     } else {
-                        // اگر هیچ fragment در backstack نیست، برنامه را ببند (default behavior)
                         finish();
                     }
                 }
             }
         });
+
 
 
 

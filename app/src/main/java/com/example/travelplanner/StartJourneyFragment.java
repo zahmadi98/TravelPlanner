@@ -134,6 +134,7 @@ public class StartJourneyFragment extends Fragment {
             // ارسال نتیجه
             getParentFragmentManager().setFragmentResult("newTrip", result);
 
+            background.setVisibility(View.GONE);
 
             requireActivity().getSupportFragmentManager().popBackStack();
         });
