@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,23 +56,31 @@ public class HomeActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new HomeFragment()).commit();
-            navigationView.setCheckedItem(R.id.nav_home);
         }
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 if (popupRoot.getVisibility() == View.VISIBLE) {
-
-                    getSupportFragmentManager().popBackStackImmediate();
-
+                    // اگر پاپ‌آپ باز است، آن را ببند و backstack پاپ‌آپ را مدیریت کن
+                    Log.d("BackPressTest", "Back pressed while popup visible, popping popup fragment");
+                    getSupportFragmentManager().popBackStack();
                     popupRoot.setVisibility(View.GONE);
+                    Log.d("BackPressTest", "Popup closed");
                 } else {
-                    setEnabled(false);
-                    HomeActivity.super.onBackPressed();
+                    // اگر پاپ‌آپ بسته است، بررسی کن آیا می‌شود fragment در frame_layout را بازگرداند؟
+                    if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                        getSupportFragmentManager().popBackStack();
+                    } else {
+                        // اگر هیچ fragment در backstack نیست، برنامه را ببند (default behavior)
+                        finish();
+                    }
                 }
             }
         });
+
+
+
         bottomNavigationView.setBackground(null);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
@@ -94,16 +103,12 @@ public class HomeActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
 
-                if (id == R.id.nav_home) {
+                if (id == R.id.nav_news) {
                     replaceFragment(new HomeFragment());
                 } else if (id == R.id.nav_settings) {
                     Toast.makeText(HomeActivity.this, "تنظیمات کلیک شد", Toast.LENGTH_SHORT).show();
-                } else if (id == R.id.nav_share) {
-                    Toast.makeText(HomeActivity.this, "اشتراک گذاری کلیک شد", Toast.LENGTH_SHORT).show();
-                }else if (id == R.id.nav_about) {
+                } else if (id == R.id.nav_about) {
                     Toast.makeText(HomeActivity.this, "درباره ما کلیک شد", Toast.LENGTH_SHORT).show();
-                } else if (id == R.id.nav_logout) {
-                    Toast.makeText(HomeActivity.this, "خروج کلیک شد", Toast.LENGTH_SHORT).show();
                 }
 
                 drawerLayout.closeDrawer(Gravity.LEFT);
@@ -125,6 +130,7 @@ public class HomeActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 
@@ -137,7 +143,6 @@ public class HomeActivity extends AppCompatActivity {
         LinearLayout videoLayout = dialog.findViewById(R.id.layoutVideo);
         LinearLayout shortsLayout = dialog.findViewById(R.id.layoutShorts);
         LinearLayout liveLayout = dialog.findViewById(R.id.layoutLive);
-        ImageView cancelButton = dialog.findViewById(R.id.cancelButton);
 
         videoLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,12 +168,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
 
         dialog.show();
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);

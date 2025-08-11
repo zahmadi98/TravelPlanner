@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Travel Planner</string>
+    <string name="app_name">پلنر سفر</string>
     <string name="open_nav">Open Navigation Drawer</string>
     <string name="close_nav">Close Navigation Drawer</string>
     <!-- TODO: Remove or change this placeholder text -->

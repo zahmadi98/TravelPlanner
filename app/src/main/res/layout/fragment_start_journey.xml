@@ -8,16 +8,53 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="12dp">
-
+        android:padding="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="مقصد:"
+            android:text="سفر خود را ثبت کنید:"
             android:textColor="@color/purple_700"
             android:textSize="16sp"
             android:layout_gravity="end" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp">
+
+            <EditText
+                android:id="@+id/editPeopleCount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="number"
+                android:background="@drawable/custom_edittext2"
+                android:padding="8dp"
+                android:textSize="14sp"
+                android:hint="تعداد نفرات"
+                android:minHeight="50dp" />
+
+            <Space
+                android:layout_width="8dp"
+                android:layout_height="wrap_content" />
+
+
+            <EditText
+                android:id="@+id/nameTravel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edittext2"
+                android:padding="8dp"
+                android:textSize="14sp"
+                android:hint="نام سفر"
+                android:minHeight="50dp" />
+
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -49,28 +86,45 @@
                 android:background="@drawable/custom_edittext"
                 android:textColor="@color/white" />
         </LinearLayout>
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="تعداد نفرات:"
-            android:textColor="@color/purple_700"
-            android:layout_marginTop="15dp"
-            android:textSize="16sp"
-            android:layout_gravity="end" />
-
-        <EditText
-            android:id="@+id/editPeopleCount"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:background="@drawable/custom_edittext2"
-            android:padding="8dp"
-            android:textSize="14sp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="12dp"
-            android:hint="تعداد نفرات را وارد کنید" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="20dp">
+
+            <EditText
+                android:id="@+id/toDoList"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edittext2"
+                android:padding="8dp"
+                android:textSize="14sp"
+                android:hint="وسایل خود را وارد کنید"
+                android:minHeight="50dp" />
+
+            <Space
+                android:layout_width="8dp"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/btnToDoList"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:minHeight="50dp"
+                android:drawableRight="@drawable/baseline_add_24"
+                android:background="@drawable/custom_edittext"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/itemsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp">
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -97,11 +151,11 @@
             android:id="@+id/btnSubmitTrip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ثبت سفر"
-            android:textSize="18sp"
-            android:layout_marginTop="15dp"
-            android:padding="10dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/custom_edittext"
-            android:textColor="@color/white" />
+            android:padding="10dp"
+            android:text="ثبت سفر"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
     </LinearLayout>
 </com.example.travelplanner.CustomScrollView>

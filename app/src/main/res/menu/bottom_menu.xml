@@ -1,30 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/home"
         android:icon="@drawable/baseline_home_24"
-        android:title="لیست سفر ها"
-        />
+        tools:ignore="MenuTitle" />
 
     <item
         android:id="@+id/alarms"
         android:icon="@drawable/outline_aod_watch_24"
-        android:title="آلارم ها"
-        />
+        tools:ignore="MenuTitle" />
     <item
         android:title=""/>
     <item
         android:id="@+id/equipment"
         android:icon="@drawable/outline_bookmark_check_24"
-        android:title="لیست وسایل"
-        />
+        tools:ignore="MenuTitle" />
 
     <item
         android:id="@+id/favorite"
         android:icon="@drawable/outline_bookmark_heart_24"
-        android:title="علاقه مندی ها"
-        />
+        tools:ignore="MenuTitle" />
 
 
 </menu>

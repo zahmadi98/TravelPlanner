@@ -6,18 +6,41 @@
     tools:context=".FavoriteFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <ImageView
-        android:id="@+id/topImage"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/rootFragmentHome"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:src="@drawable/homebkg"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="لیست سفر ها"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:textColor="@color/lavender"/>
+        android:layout_height="match_parent">
+
+        <!-- بخش نمایش وقتی لیست خالیه -->
+        <LinearLayout
+            android:id="@+id/emptyView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/homebkg">  <!-- یا میتونی ImageView بذاری -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="لیست سفر ها"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textColor="@color/lavender" />
+        </LinearLayout>
+
+        <!-- بخش نمایش لیست سفرها که اول مخفی هست -->
+        <LinearLayout
+            android:id="@+id/tripListContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@android:color/white"
+            android:visibility="gone"
+            android:padding="10dp">
+            <!-- اینجا آیتم‌های سفر اضافه میشن -->
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </FrameLayout>

@@ -8,9 +8,9 @@
         android:checkableBehavior="single">
 
         <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/baseline_home_24"
-            android:title="خانه"/>
+            android:id="@+id/nav_news"
+            android:icon="@drawable/baseline_newspaper_24"
+            android:title="اخبار"/>
 
         <item
             android:id="@+id/nav_settings"
@@ -18,25 +18,9 @@
             android:title="تنظیمات"/>
 
         <item
-            android:id="@+id/nav_share"
-            android:icon="@drawable/baseline_share_24"
-            android:title="اشتراک گذاری"/>
-
-        <item
             android:id="@+id/nav_about"
             android:icon="@drawable/baseline_info_24"
             android:title="درباره ما"/>
     </group>
-    <item
-        android:title="">
-
-        <menu>
-            <item
-                android:id="@+id/nav_logout"
-                android:icon="@drawable/baseline_exit_to_app_24"
-                android:title="خروج"/>
-        </menu>
-
-    </item>
 
 </menu>
