@@ -4,8 +4,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
+import androidx.appcompat.app.AlertDialog;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,7 +24,7 @@ public class HomeFragment extends Fragment {
 
     private LinearLayout tripListContainer;
     private View emptyView;
-    private List<Trip> tripList = new ArrayList<>();
+    public List<Trip> tripList = new ArrayList<>();
 
     public HomeFragment() {}
 
@@ -61,23 +67,30 @@ public class HomeFragment extends Fragment {
 
             LayoutInflater inflater = LayoutInflater.from(getContext());
 
-            for (Trip trip : tripList) {
+            for (int i = 0; i < tripList.size(); i++) {
+                Trip trip = tripList.get(i);
                 View tripView = inflater.inflate(R.layout.trip_item, tripListContainer, false);
 
+                ImageView editIcon = tripView.findViewById(R.id.editIcon);
                 TextView tripName = tripView.findViewById(R.id.tripName);
                 TextView tripDescription = tripView.findViewById(R.id.tripDescription);
                 TextView peopleCount = tripView.findViewById(R.id.peopleCount);
 
                 tripName.setText(trip.getName());
                 tripDescription.setText(trip.getDescription());
-                peopleCount.setText("نفر: " + trip.getPeopleCount());
+                peopleCount.setText(trip.getPeopleCount() + " نفر");
+
+                int index = i;
+                editIcon.setOnClickListener(v -> {
+                    openEditDialog(trip, index);
+                });
 
                 tripListContainer.addView(tripView);
             }
         }
     }
 
-    private static class Trip {
+    public static class Trip {
         private final String name;
         private final String description;
         private final String destination;
@@ -94,5 +107,40 @@ public class HomeFragment extends Fragment {
         public String getDescription() { return description; }
         public int getPeopleCount() { return peopleCount; }
         public String getDestination() { return destination; }
+    }
+    private void openEditDialog(Trip trip, int index) {
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        View dialogView = inflater.inflate(R.layout.dialog_edit_trip, null);
+
+        EditText editName = dialogView.findViewById(R.id.editName);
+        EditText editDescription = dialogView.findViewById(R.id.editDescription);
+        EditText editPeopleCount = dialogView.findViewById(R.id.editPeopleCount);
+        EditText editDestination = dialogView.findViewById(R.id.editDestination);
+        Button btnSave = dialogView.findViewById(R.id.btnSave);
+        Button btnCancel = dialogView.findViewById(R.id.btnCancel);
+
+        editName.setText(trip.getName());
+        editDescription.setText(trip.getDescription());
+        editPeopleCount.setText(String.valueOf(trip.getPeopleCount()));
+        editDestination.setText(trip.getDestination());
+
+        AlertDialog dialog = new AlertDialog.Builder(requireContext())
+                .setView(dialogView)
+                .create();
+
+        btnSave.setOnClickListener(v -> {
+            String newName = editName.getText().toString().trim();
+            String newDescription = editDescription.getText().toString().trim();
+            int newPeopleCount = Integer.parseInt(editPeopleCount.getText().toString().trim());
+            String newDestination = editDestination.getText().toString().trim();
+
+            tripList.set(index, new Trip(newName, newDescription, newPeopleCount, newDestination));
+            refreshTripList();
+            dialog.dismiss();
+        });
+
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
     }
 }
