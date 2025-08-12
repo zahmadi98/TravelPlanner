@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center"
-            android:background="@drawable/homebkg">  <!-- یا میتونی ImageView بذاری -->
+            android:background="@drawable/homebkg">
 
             <TextView
                 android:layout_width="match_parent"

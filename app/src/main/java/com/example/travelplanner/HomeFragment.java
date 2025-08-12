@@ -12,11 +12,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
     private LinearLayout tripListContainer;
-    private ArrayList<Trip> trips = new ArrayList<>();
+    private View emptyView;
+    private List<Trip> tripList = new ArrayList<>();
 
     public HomeFragment() {}
 
@@ -32,16 +34,8 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         tripListContainer = view.findViewById(R.id.tripListContainer);
+        emptyView = view.findViewById(R.id.emptyView);
 
-        // دریافت سفر جدید از StartJourneyFragment
-        getParentFragmentManager().setFragmentResultListener("newTrip", this, (requestKey, bundle) -> {
-            String name = bundle.getString("tripName");
-            String description = bundle.getString("tripDescription");
-            int peopleCount = bundle.getInt("tripPeopleCount");
-            String destination = bundle.getString("tripDestination");
-
-            addTrip(new Trip(name, description, peopleCount, destination));
-        });
 
         refreshTripList();
     }
@@ -49,42 +43,36 @@ public class HomeFragment extends Fragment {
     private void refreshTripList() {
         tripListContainer.removeAllViews();
 
-        if (trips.isEmpty()) {
-            // وقتی لیست خالیه، یک TextView نشون بده
-            TextView emptyText = new TextView(getContext());
-            emptyText.setText("هیچ سفری ثبت نشده است");
-            emptyText.setTextSize(18);
-            emptyText.setPadding(20, 20, 20, 20);
-            tripListContainer.addView(emptyText);
+        if (tripList.isEmpty()) {
+            emptyView.setVisibility(View.VISIBLE);
+            tripListContainer.setVisibility(View.GONE);
         } else {
-            // نمایش هر سفر
-            for (Trip trip : trips) {
-                View tripView = LayoutInflater.from(getContext()).inflate(R.layout.trip_item, tripListContainer, false);
+            emptyView.setVisibility(View.GONE);
+            tripListContainer.setVisibility(View.VISIBLE);
+
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+
+            for (Trip trip : tripList) {
+                View tripView = inflater.inflate(R.layout.trip_item, tripListContainer, false);
 
                 TextView tripName = tripView.findViewById(R.id.tripName);
                 TextView tripDescription = tripView.findViewById(R.id.tripDescription);
                 TextView peopleCount = tripView.findViewById(R.id.peopleCount);
 
-                tripName.setText(trip.name);
-                tripDescription.setText(trip.description);
-                peopleCount.setText("تعداد نفرات: " + trip.peopleCount);
+                tripName.setText(trip.getName());
+                tripDescription.setText(trip.getDescription());
+                peopleCount.setText("تعداد نفرات: " + trip.getPeopleCount());
 
                 tripListContainer.addView(tripView);
             }
         }
     }
 
-    private void addTrip(Trip trip) {
-        trips.add(trip);
-        refreshTripList();
-    }
-
-    // مدل سفر
-    public static class Trip {
-        String name;
-        String description;
-        int peopleCount;
-        String destination;
+    private static class Trip {
+        private final String name;
+        private final String description;
+        private final String destination;
+        private final int peopleCount;
 
         public Trip(String name, String description, int peopleCount, String destination) {
             this.name = name;
@@ -92,5 +80,10 @@ public class HomeFragment extends Fragment {
             this.peopleCount = peopleCount;
             this.destination = destination;
         }
+
+        public String getName() { return name; }
+        public String getDescription() { return description; }
+        public int getPeopleCount() { return peopleCount; }
+        public String getDestination() { return destination; }
     }
 }

@@ -48,7 +48,6 @@ public class HomeActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.nav_view);
         Toolbar toolbar = findViewById(R.id.toolbar);
         popupRoot = findViewById(R.id.root_home);
-
         setSupportActionBar(toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav, R.string.close_nav);
         drawerLayout.addDrawerListener(toggle);
@@ -65,8 +64,7 @@ public class HomeActivity extends AppCompatActivity {
                     FragmentManager fm = getSupportFragmentManager();
                     if (fm.getBackStackEntryCount() > 0) {
                         fm.popBackStack();
-                        // بعد از پاپ کردن بررسی کن آیا fragment دیگه‌ای هست یا نه
-                        fm.executePendingTransactions(); // اجرای فوری تراکنش‌ها
+                        fm.executePendingTransactions();
                         if (fm.getBackStackEntryCount() == 0) {
                             popupRoot.setVisibility(View.GONE);
                         }
