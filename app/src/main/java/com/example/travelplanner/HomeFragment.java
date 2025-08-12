@@ -70,7 +70,7 @@ public class HomeFragment extends Fragment {
 
                 tripName.setText(trip.getName());
                 tripDescription.setText(trip.getDescription());
-                peopleCount.setText("تعداد نفرات: " + trip.getPeopleCount());
+                peopleCount.setText("نفر: " + trip.getPeopleCount());
 
                 tripListContainer.addView(tripView);
             }
