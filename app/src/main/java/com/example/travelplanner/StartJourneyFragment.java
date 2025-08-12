@@ -67,7 +67,6 @@ public class StartJourneyFragment extends Fragment {
         EditText editTextPeopleCount = view.findViewById(R.id.editPeopleCount);
         EditText editTextDestination = view.findViewById(R.id.editDestination);
 
-
         getParentFragmentManager().setFragmentResult("hideBackground", new Bundle());
 
         // دریافت مکان انتخاب شده از MapSelectFragment
@@ -75,7 +74,29 @@ public class StartJourneyFragment extends Fragment {
             String location = bundle.getString("location");
             editTextDestination.setText(location);
         });
+        Button btnSubmitTrip = view.findViewById(R.id.btnSubmitTrip);
+
+        btnSubmitTrip.setOnClickListener(v -> {
+            String tripName = editTextTripName.getText().toString().trim();
+            String tripDescription = editTextTripDescription.getText().toString().trim();
+            int tripPeopleCount = Integer.parseInt(editTextPeopleCount.getText().toString().trim());
+            String tripDestination = editTextDestination.getText().toString().trim();
+
+            Bundle result = new Bundle();
+            result.putString("tripName", tripName);
+            result.putString("tripDescription", tripDescription);
+            result.putInt("tripPeopleCount", tripPeopleCount);
+            result.putString("tripDestination", tripDestination);
+            getParentFragmentManager().setFragmentResult("newTrip", result);
+
+            View popupRoot = getActivity().findViewById(R.id.root_home);
+            if (popupRoot != null) {
+                popupRoot.setVisibility(View.GONE);
+            }
+            getParentFragmentManager().popBackStack();
+        });
     }
+
 
     // متد ساخت آیتم To-Do
     private LinearLayout createToDoItem(String text, LinearLayout parent) {

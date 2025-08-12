@@ -36,9 +36,18 @@ public class HomeFragment extends Fragment {
         tripListContainer = view.findViewById(R.id.tripListContainer);
         emptyView = view.findViewById(R.id.emptyView);
 
+        getParentFragmentManager().setFragmentResultListener("newTrip", this, (requestKey, bundle) -> {
+            String name = bundle.getString("tripName");
+            String desc = bundle.getString("tripDescription");
+            int people = bundle.getInt("tripPeopleCount");
+            String dest = bundle.getString("tripDestination");
+            tripList.add(new Trip(name, desc, people, dest));
+            refreshTripList();
+        });
 
         refreshTripList();
     }
+
 
     private void refreshTripList() {
         tripListContainer.removeAllViews();
