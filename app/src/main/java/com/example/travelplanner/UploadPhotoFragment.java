@@ -1,7 +1,9 @@
 package com.example.travelplanner;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -14,16 +16,26 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UploadPhotoFragment extends Fragment {
 
     private ImageView uploadIcon, uploadedImage;
     private Button btnChoosePhoto;
     private ProgressBar uploadProgressBar;
+    private com.google.android.material.textfield.MaterialAutoCompleteTextView choseTrip;
+    private List<HomeFragment.Trip> tripList = new ArrayList<>();
 
     private ActivityResultLauncher<String> galleryLauncher;
 
@@ -37,6 +49,16 @@ public class UploadPhotoFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        choseTrip = view.findViewById(R.id.choseTrip);
+        choseTrip.setOnClickListener(v -> {
+            choseTrip.showDropDown();
+        });
+        choseTrip.setOnItemClickListener((parent, itemView, position, id) -> {
+            String selectedTrip = (String) parent.getItemAtPosition(position);
+        });
+
+        loadTrips();
+        setupTripDropdown();
         View background = requireActivity().findViewById(R.id.root_home);
 
         background.setOnClickListener(v -> {
@@ -61,7 +83,30 @@ public class UploadPhotoFragment extends Fragment {
 
         btnChoosePhoto.setOnClickListener(v -> openGallery());
     }
+    private void setupTripDropdown() {
+        List<String> tripNames = new ArrayList<>();
+        for (HomeFragment.Trip trip : tripList) {
+            tripNames.add(trip.getName());
+        }
 
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(),
+                android.R.layout.simple_dropdown_item_1line, tripNames);
+        choseTrip.setAdapter(adapter);
+
+        choseTrip.setText("", false);
+    }
+
+
+    private void loadTrips() {
+        SharedPreferences prefs = requireContext().getSharedPreferences("MyTrips", Context.MODE_PRIVATE);
+        String json = prefs.getString("trip_list", null);
+
+        if (json != null) {
+            Gson gson = new Gson();
+            Type type = new TypeToken<List<HomeFragment.Trip>>() {}.getType();
+            tripList = gson.fromJson(json, type);
+        }
+    }
     private void openGallery() {
         galleryLauncher.launch("image/*");
     }

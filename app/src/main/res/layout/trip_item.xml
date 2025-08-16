@@ -20,6 +20,14 @@
             android:src="@drawable/baseline_create_24"
             android:contentDescription="ویرایش سفر" />
 
+        <ImageView
+            android:id="@+id/deleteIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/baseline_delete_24"
+            android:contentDescription="حذف سفر"
+            android:layout_marginStart="12dp"/>
+
         <TextView
             android:id="@+id/tripName"
             android:layout_width="0dp"

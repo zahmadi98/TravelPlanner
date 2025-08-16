@@ -1,9 +1,12 @@
 package com.example.travelplanner;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,9 +19,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class HomeFragment extends Fragment {
 
@@ -42,17 +50,22 @@ public class HomeFragment extends Fragment {
         tripListContainer = view.findViewById(R.id.tripListContainer);
         emptyView = view.findViewById(R.id.emptyView);
 
+        tripList = loadTrips();
+
         getParentFragmentManager().setFragmentResultListener("newTrip", this, (requestKey, bundle) -> {
             String name = bundle.getString("tripName");
             String desc = bundle.getString("tripDescription");
             int people = bundle.getInt("tripPeopleCount");
             String dest = bundle.getString("tripDestination");
+
             tripList.add(new Trip(name, desc, people, dest));
+            saveTrips(); // ذخیره کل سفرها
             refreshTripList();
         });
 
         refreshTripList();
     }
+
 
 
     private void refreshTripList() {
@@ -72,6 +85,7 @@ public class HomeFragment extends Fragment {
                 View tripView = inflater.inflate(R.layout.trip_item, tripListContainer, false);
 
                 ImageView editIcon = tripView.findViewById(R.id.editIcon);
+                ImageView deleteIcon = tripView.findViewById(R.id.deleteIcon);
                 TextView tripName = tripView.findViewById(R.id.tripName);
                 TextView tripDescription = tripView.findViewById(R.id.tripDescription);
                 TextView peopleCount = tripView.findViewById(R.id.peopleCount);
@@ -85,16 +99,35 @@ public class HomeFragment extends Fragment {
                     openEditDialog(trip, index);
                 });
 
+                deleteIcon.setOnClickListener(v -> {
+                    LayoutInflater deleteInflater = getLayoutInflater(); // اسم جدید
+                    View dialogView = deleteInflater.inflate(R.layout.dialog_confirm_delete, null);
+
+                    AlertDialog dialog = new AlertDialog.Builder(requireContext())
+                            .setView(dialogView)
+                            .setPositiveButton("بله", (d, which) -> {
+                                tripList.remove(index);
+                                saveTrips();
+                                refreshTripList();
+                            })
+                            .setNegativeButton("خیر", (d, which) -> d.dismiss())
+                            .create();
+
+                    dialog.show();
+                });
+
+
                 tripListContainer.addView(tripView);
+
             }
         }
     }
 
     public static class Trip {
-        private final String name;
-        private final String description;
-        private final String destination;
-        private final int peopleCount;
+        private String name;
+        private String description;
+        private String destination;
+        private int peopleCount;
 
         public Trip(String name, String description, int peopleCount, String destination) {
             this.name = name;
@@ -108,6 +141,7 @@ public class HomeFragment extends Fragment {
         public int getPeopleCount() { return peopleCount; }
         public String getDestination() { return destination; }
     }
+
     private void openEditDialog(Trip trip, int index) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View dialogView = inflater.inflate(R.layout.dialog_edit_trip, null);
@@ -137,10 +171,35 @@ public class HomeFragment extends Fragment {
             tripList.set(index, new Trip(newName, newDescription, newPeopleCount, newDestination));
             refreshTripList();
             dialog.dismiss();
+            saveTrips();
         });
 
         btnCancel.setOnClickListener(v -> dialog.dismiss());
 
         dialog.show();
     }
+    private void saveTrips() {
+        SharedPreferences prefs = requireContext().getSharedPreferences("MyTrips", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        Gson gson = new Gson();
+        String json = gson.toJson(tripList); // لیست کامل به JSON
+
+        editor.putString("trip_list", json);
+        editor.apply();
+    }
+
+    private List<Trip> loadTrips() {
+        SharedPreferences prefs = requireContext().getSharedPreferences("MyTrips", Context.MODE_PRIVATE);
+        String json = prefs.getString("trip_list", null);
+
+        if (json == null) return new ArrayList<>();
+
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<Trip>>() {}.getType();
+        return gson.fromJson(json, type);
+    }
+
+
+
 }

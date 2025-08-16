@@ -3,7 +3,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/dialogbkg">
+    android:background="@drawable/dialogbkg"
+    android:layoutDirection="rtl">
 
     <ImageView
         android:layout_width="70dp"
@@ -12,29 +13,26 @@
         android:layout_gravity="center|top"
         android:scaleType="centerCrop"/>
 
-
     <LinearLayout
         android:id="@+id/layoutVideo"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:padding="10dp">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/baseline_card_travel_24"
-            />
+            android:src="@drawable/baseline_card_travel_24"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="شروع یک سفر"
             android:textColor="@color/lavender"
-            android:layout_marginLeft="30dp"
+            android:layout_marginStart="30dp"
             android:textSize="16sp"/>
-
     </LinearLayout>
 
     <LinearLayout
@@ -42,8 +40,8 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:padding="10dp">
-
 
         <ImageView
             android:layout_width="wrap_content"
@@ -55,9 +53,8 @@
             android:layout_height="wrap_content"
             android:text="آپلود عکس"
             android:textColor="@color/lavender"
-            android:layout_marginLeft="30dp"
+            android:layout_marginStart="30dp"
             android:textSize="16sp"/>
-
     </LinearLayout>
 
     <LinearLayout
@@ -65,26 +62,24 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:layout_marginTop="10dp"
         android:paddingTop="10dp"
         android:paddingBottom="30dp">
-
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/baseline_alarm_24"
-            />
+            android:src="@drawable/baseline_alarm_24"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="تنطیم آلارم"
+            android:text="تنظیم آلارم"
             android:textColor="@color/lavender"
-            android:layout_marginLeft="30dp"
+            android:layout_marginStart="30dp"
             android:textSize="16sp"/>
-
     </LinearLayout>
 
 </LinearLayout>

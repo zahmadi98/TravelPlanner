@@ -33,7 +33,7 @@ dependencies {
     implementation libs.material
     implementation libs.activity
     implementation libs.constraintlayout
-
+    implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'org.osmdroid:osmdroid-android:6.1.14'
     implementation libs.play.services.location
 

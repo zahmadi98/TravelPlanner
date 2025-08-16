@@ -61,6 +61,7 @@
             android:id="@+id/btnCancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="16sp"
             android:text="لغو"
             android:backgroundTint="@color/purple_500"
             android:textColor="@color/white"
@@ -72,6 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="ذخیره"
+            android:textSize="16sp"
             android:background="@drawable/formbkg"
             android:textColor="@color/white"/>
     </LinearLayout>
