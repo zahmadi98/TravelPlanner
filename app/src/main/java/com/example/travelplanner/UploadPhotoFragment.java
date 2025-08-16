@@ -89,12 +89,19 @@ public class UploadPhotoFragment extends Fragment {
             tripNames.add(trip.getName());
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(),
-                android.R.layout.simple_dropdown_item_1line, tripNames);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                requireContext(),
+                R.layout.dropdown_item,
+                R.id.dropdownItemText,
+                tripNames
+        );
+
         choseTrip.setAdapter(adapter);
 
-        choseTrip.setText("", false);
+        choseTrip.setText("", false); // خالی باشه
     }
+
+
 
 
     private void loadTrips() {

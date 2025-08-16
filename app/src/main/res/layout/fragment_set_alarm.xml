@@ -19,7 +19,7 @@
             android:textSize="16sp"
             android:layout_gravity="end" />
 
-        <EditText
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
             android:id="@+id/choseTrip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,6 +30,7 @@
             android:textSize="14sp"
             android:layout_marginBottom="12dp"
             android:hint="سفر خود را انتخاب کنید" />
+
 
         <!-- خط جداکننده -->
         <View
