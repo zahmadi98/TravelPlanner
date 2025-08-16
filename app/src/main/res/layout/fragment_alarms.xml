@@ -1,23 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".AlarmsFragment">
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <ImageView
-        android:id="@+id/topImage"
+<!-- TODO: Update blank fragment layout -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootFragmentHome"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- بخش نمایش وقتی لیست خالیه -->
+    <LinearLayout
+        android:id="@+id/emptyView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:src="@drawable/alarmbkg"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="آلارم ها"
+        android:orientation="vertical"
         android:gravity="center"
-        android:textSize="20sp"
-        android:textColor="@color/lavender"/>
+        android:background="@drawable/alarmbkg">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="آلارم ها"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textColor="@color/lavender" />
+    </LinearLayout>
+
+    <!-- بخش نمایش لیست سفرها که اول مخفی هست -->
+    <LinearLayout
+        android:id="@+id/alarmListContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@android:color/white"
+        android:visibility="gone"
+        android:padding="10dp">
+        <TextView android:id="@+id/tvTripName" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <TextView android:id="@+id/tvStartDate" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <TextView android:id="@+id/tvFinishDate" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <TextView android:id="@+id/tvAlarmTime" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</RelativeLayout>
 
 </FrameLayout>
