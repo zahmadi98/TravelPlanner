@@ -16,6 +16,17 @@
 
         !-- Customize your theme here. -->
     </style>
+    <style name="PurpleDatePickerDialog" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="colorPrimary">@color/lavender</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnSurface">@color/purple_700</item>
+    </style>
+
+    <style name="PurpleMaterialTimePicker" parent="ThemeOverlay.MaterialComponents.TimePicker">
+        <item name="colorPrimary">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+    </style>
 
     <style name="Theme.TravelPlanner" parent="Base.Theme.TravelPlanner" />
     <style name="DialogAnimation">

@@ -98,7 +98,7 @@
             android:layout_marginTop="20dp">
 
             <EditText
-                android:id="@+id/showAlarm"
+                android:id="@+id/timeEditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -113,7 +113,7 @@
                 android:layout_height="wrap_content" />
 
             <Button
-                android:id="@+id/btnSetAlarm"
+                android:id="@+id/btnSetTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minHeight="50dp"
