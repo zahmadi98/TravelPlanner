@@ -18,6 +18,7 @@ dependencyResolutionManagement {
         maven { url 'https://maven.myket.ir' }
         google()
         mavenCentral()
+        maven {url 'https://jitpack.io'}
     }
 }
 

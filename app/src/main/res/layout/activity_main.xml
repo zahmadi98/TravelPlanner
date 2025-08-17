@@ -56,7 +56,7 @@
                 android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="30dp"
                 android:background="@drawable/custom_edittext"
                 android:drawableRight="@drawable/baseline_person_24"
                 android:drawablePadding="8dp"
@@ -83,11 +83,19 @@
                 android:id="@+id/loginbutton"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:text="ورود"
                 android:textSize="20sp"
                 android:backgroundTint="@color/purple"
                 app:cornerRadius="20dp" />
+
+            <com.developer.gbuttons.GoogleSignInButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=" Sign in with Google"
+                android:layout_marginTop="10dp"
+                android:id="@+id/googlebtn"
+                android:layout_gravity="center" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

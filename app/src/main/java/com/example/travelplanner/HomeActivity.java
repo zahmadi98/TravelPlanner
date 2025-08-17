@@ -11,8 +11,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import androidx.activity.OnBackPressedDispatcher;
@@ -21,10 +23,17 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptionsExtension;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -47,11 +56,10 @@ public class HomeActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         popupRoot = findViewById(R.id.root_home);
         setSupportActionBar(toolbar);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav, R.string.close_nav);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
+
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new HomeFragment()).commit();
@@ -113,8 +121,7 @@ public class HomeActivity extends AppCompatActivity {
                 } else if (id == R.id.nav_about) {
                     Toast.makeText(HomeActivity.this, "درباره ما کلیک شد", Toast.LENGTH_SHORT).show();
                 }
-
-                drawerLayout.closeDrawer(Gravity.LEFT);
+                drawerLayout.closeDrawer(GravityCompat.END);
                 return true;
             }
         });
@@ -126,8 +133,25 @@ public class HomeActivity extends AppCompatActivity {
                 showBottomDialog();
             }
         });
-    }
 
+        // دکمه‌ی منو سمت راست
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.baseline_menu_24);
+        }
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
+                drawerLayout.closeDrawer(GravityCompat.END);
+            } else {
+                drawerLayout.openDrawer(GravityCompat.END);
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     //Outside onCreate
     private  void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -186,4 +210,5 @@ public class HomeActivity extends AppCompatActivity {
                 .addToBackStack(null)
                 .commit();
     }
+
 }

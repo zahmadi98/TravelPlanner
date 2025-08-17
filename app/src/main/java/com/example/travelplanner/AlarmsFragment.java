@@ -61,23 +61,43 @@ public class AlarmsFragment extends Fragment {
             alarmListContainer.setVisibility(View.VISIBLE);
 
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            for(Alarm alarm : alarmList){
+            for (int i = 0; i < alarmList.size(); i++) {
+                Alarm alarm = alarmList.get(i);
+
                 View alarmView = inflater.inflate(R.layout.alarm_item, alarmListContainer, false);
 
                 TextView tripName = alarmView.findViewById(R.id.tripName);
                 TextView startDate = alarmView.findViewById(R.id.startDate);
                 TextView finishDate = alarmView.findViewById(R.id.finishDate);
                 TextView alarmTime = alarmView.findViewById(R.id.timeEditText);
+                View btnDelete = alarmView.findViewById(R.id.btnDelete);
 
                 tripName.setText(alarm.getTripName());
                 startDate.setText("شروع: " + alarm.getStartDate());
                 finishDate.setText("پایان: " + alarm.getFinishDate());
                 alarmTime.setText("ساعت: " + alarm.getAlarmTime());
 
+                // 🚮 حذف آلارم
+                int index = i; // اندیس آلارم برای حذف
+                btnDelete.setOnClickListener(v -> {
+                    alarmList.remove(index);
+                    saveAlarms(alarmList);
+                    refreshAlarmList();
+                });
+
                 alarmListContainer.addView(alarmView);
             }
+
         }
     }
+    private void saveAlarms(List<Alarm> alarms){
+        SharedPreferences prefs = requireContext().getSharedPreferences("MyAlarms", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        Gson gson = new Gson();
+        editor.putString("alarm_list", gson.toJson(alarms));
+        editor.apply();
+    }
+
 
     private List<Alarm> loadAlarms(){
         SharedPreferences prefs = requireContext().getSharedPreferences("MyAlarms", Context.MODE_PRIVATE);

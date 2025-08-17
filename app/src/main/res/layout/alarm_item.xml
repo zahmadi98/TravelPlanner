@@ -1,41 +1,54 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="horizontal"
     android:padding="12dp"
-    android:background="@android:color/white"
-    android:layout_marginBottom="8dp"
-    android:elevation="2dp">
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/custom_edittext">
 
-    <TextView
-        android:id="@+id/tripName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="نام سفر"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:textColor="@android:color/black"/>
+    <!-- سطل آشغال سمت چپ -->
+    <ImageView
+        android:id="@+id/btnDelete"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/baseline_delete_24"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:contentDescription="حذف آلارم" />
 
-    <TextView
-        android:id="@+id/startDate"
-        android:layout_width="match_parent"
+    <!-- متن‌ها سمت راست -->
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="شروع: ---"
-        android:textSize="14sp"/>
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="end"
+        android:paddingStart="8dp">
 
-    <TextView
-        android:id="@+id/finishDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="پایان: ---"
-        android:textSize="14sp"/>
+        <TextView
+            android:id="@+id/tripName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="نام سفر" />
 
-    <TextView
-        android:id="@+id/timeEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="ساعت: ---"
-        android:textSize="14sp"/>
+        <TextView
+            android:id="@+id/startDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="شروع" />
+
+        <TextView
+            android:id="@+id/finishDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="پایان" />
+
+        <TextView
+            android:id="@+id/timeEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ساعت" />
+    </LinearLayout>
 
 </LinearLayout>
