@@ -28,7 +28,6 @@
         android:layout_margin="24dp"
         app:cardCornerRadius="30dp"
         app:cardElevation="16dp"
-        android:background="@drawable/custom_edittext"
         app:layout_constraintTop_toTopOf="@+id/topImage"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,7 +57,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/custom_edittext"
-                android:drawableRight="@drawable/baseline_person_24"
+                android:drawableEnd="@drawable/baseline_person_24"
                 android:drawablePadding="8dp"
                 android:hint="نام کاربری"
                 android:padding="8dp"
@@ -71,11 +70,10 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/custom_edittext"
-                android:drawableRight="@drawable/baseline_lock_24"
+                android:drawableEnd="@drawable/baseline_lock_24"
                 android:drawablePadding="8dp"
                 android:hint="رمز ورود"
                 android:padding="8dp"
-
                 android:textColor="@color/black"
                 android:textColorHighlight="@color/cardview_dark_background" />
 
@@ -89,13 +87,16 @@
                 android:backgroundTint="@color/purple"
                 app:cornerRadius="20dp" />
 
-            <com.developer.gbuttons.GoogleSignInButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=" Sign in with Google"
-                android:layout_marginTop="10dp"
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/googlebtn"
-                android:layout_gravity="center" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ورود با گوگل"
+                app:icon="@drawable/ic_googlelogo"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

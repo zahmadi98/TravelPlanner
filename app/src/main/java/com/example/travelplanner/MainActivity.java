@@ -1,47 +1,79 @@
-// MainActivity.java
 package com.example.travelplanner;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.IntentSenderRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.developer.gbuttons.GoogleSignInButton;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.internal.GoogleSignInOptionsExtensionParcelable;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.Task;
+import com.google.android.gms.auth.api.identity.BeginSignInRequest;
+import com.google.android.gms.auth.api.identity.Identity;
+import com.google.android.gms.auth.api.identity.SignInClient;
+import com.google.android.gms.auth.api.identity.SignInCredential;
+import com.google.android.material.button.MaterialButton;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 public class MainActivity extends AppCompatActivity {
+
+    private FirebaseAuth mAuth;
+    private MaterialButton googleBtn;
+    private SignInClient oneTapClient;
+    private BeginSignInRequest signInRequest;
     private EditText usernameInput, passwordInput;
     private UserManager userManager;
-    private GoogleSignInButton googleBtn;
-    private GoogleSignInClient gClient;
+
+    private final ActivityResultLauncher<IntentSenderRequest> signInLauncher =
+            registerForActivityResult(
+                    new ActivityResultContracts.StartIntentSenderForResult(),
+                    result -> {
+                        try {
+                            SignInCredential credential = oneTapClient.getSignInCredentialFromIntent(result.getData());
+                            String idToken = credential.getGoogleIdToken();
+                            if (idToken != null) {
+                                firebaseAuthWithGoogle(idToken);
+                            } else {
+                                Toast.makeText(this, "ورود با گوگل موفق نبود", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e) {
+                            Log.e("GoogleSignIn", "Sign-in failed", e);
+                            Toast.makeText(this, "ورود با گوگل موفق نبود", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+            );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FirebaseApp.initializeApp(this);
         setContentView(R.layout.activity_main);
-        userManager = new UserManager(this);
 
+        userManager = new UserManager(this);
+        mAuth = FirebaseAuth.getInstance();
+
+        // اگر قبلاً لاگین کرده بود
+        if (mAuth.getCurrentUser() != null) {
+            goToHome();
+        } else {
+            initUI();
+            initGoogleSignIn();
+        }
+    }
+
+    private void initUI() {
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -59,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
         Button loginButton = findViewById(R.id.loginbutton);
         googleBtn = findViewById(R.id.googlebtn);
 
+        // ورود معمولی با نام کاربری و رمز
         loginButton.setOnClickListener(v -> {
             String username = usernameInput.getText().toString().trim();
             String password = passwordInput.getText().toString().trim();
@@ -69,45 +102,62 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "رمز عبور اشتباه است", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "ورود موفق", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(this, HomeActivity.class));
-                finish();
+                goToHome();
             }
         });
-        // تنظیمات گوگل ساین
-        GoogleSignInOptions gOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
+    }
+
+    private void initGoogleSignIn() {
+        oneTapClient = Identity.getSignInClient(this);
+
+        signInRequest = BeginSignInRequest.builder()
+                .setGoogleIdTokenRequestOptions(
+                        BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+                                .setSupported(true)
+                                .setServerClientId(getString(R.string.default_web_client_id))
+                                .setFilterByAuthorizedAccounts(false)
+                                .build()
+                )
+                .setAutoSelectEnabled(false)
                 .build();
 
-        gClient = GoogleSignIn.getClient(this, gOptions);
-
-        // بررسی اینکه قبلاً کاربر وارد شده است
-        GoogleSignInAccount gAccount = GoogleSignIn.getLastSignedInAccount(this);
-        if (gAccount != null) {
-            goToHome();
-        }
-
-        ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
-                        Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
-                        try {
-                            task.getResult(ApiException.class); // اگر موفق بود
-                            goToHome();
-                        } catch (ApiException e) {
-                            Toast.makeText(MainActivity.this, "ورود با گوگل ناموفق بود", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }
-        );
-        googleBtn.setOnClickListener(view -> {
-            Intent signInIntent = gClient.getSignInIntent();
-            activityResultLauncher.launch(signInIntent);
-        });
+        googleBtn.setOnClickListener(v -> startSignIn());
     }
+
+    private void startSignIn() {
+        oneTapClient.beginSignIn(signInRequest)
+                .addOnSuccessListener(this, result -> {
+                    try {
+                        signInLauncher.launch(
+                                new IntentSenderRequest.Builder(result.getPendingIntent().getIntentSender()).build()
+                        );
+                    } catch (Exception e) {
+                        Log.e("GoogleSignIn", "Launcher failed", e);
+                    }
+                })
+                .addOnFailureListener(this, e -> {
+                    Log.e("GoogleSignIn", "Sign-in failed", e);
+                    Toast.makeText(this, "ورود با گوگل موفق نبود", Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void firebaseAuthWithGoogle(String idToken) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        Toast.makeText(this, "ورود موفق: " + user.getEmail(), Toast.LENGTH_SHORT).show();
+                        goToHome();
+                    } else {
+                        Log.w("FirebaseAuth", "signInWithCredential:failure", task.getException());
+                        Toast.makeText(this, "ورود با گوگل موفق نبود", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
     private void goToHome() {
-        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-        startActivity(intent);
+        startActivity(new Intent(MainActivity.this, HomeActivity.class));
         finish();
     }
 }

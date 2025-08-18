@@ -3,26 +3,41 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="160dp"
-    android:gravity="bottom"
-    android:padding="28dp"
+    android:layout_height="180dp"
+    android:padding="20dp"
     android:background="@drawable/headerbkg"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
+    <!-- عکس پروفایل -->
     <ImageView
-        android:layout_width="60dp"
-        android:layout_height="68dp"
-        android:src="@drawable/logo" />
+        android:id="@+id/profileImage"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/logo"
+        android:background="@drawable/circle_background"
+        android:padding="2dp"
+        android:layout_marginBottom="5dp"/>
 
+    <!-- نام کاربر -->
     <TextView
+        android:id="@+id/profileName"
         android:layout_width="wrap_content"
-        android:layout_height="28dp"
+        android:layout_height="wrap_content"
         android:text="پلنر سفر"
-        android:textColor="@color/purple_700"
-        android:textSize="16sp"
-        android:layout_marginLeft="5dp"
-        android:textStyle="bold" />
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:paddingLeft="6dp"
+        android:textStyle="bold"
+        android:layout_marginBottom="4dp"/>
 
-
-
+    <!-- ایمیل کاربر -->
+    <TextView
+        android:id="@+id/profileEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="example@email.com"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:visibility="gone"/>
 </LinearLayout>

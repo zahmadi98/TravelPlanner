@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "13548437499",
+    "project_id": "travelplannerme-zeinab",
+    "storage_bucket": "travelplannerme-zeinab.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:13548437499:android:203e30821457c1e76c555e",
+        "android_client_info": {
+          "package_name": "com.example.travelplanner"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwPE79md_dBm2Ro6scAanfLjSmKdNVSm8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

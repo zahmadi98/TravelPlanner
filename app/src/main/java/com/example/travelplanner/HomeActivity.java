@@ -1,25 +1,21 @@
-// HomeActivity.java
 package com.example.travelplanner;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
-import androidx.activity.OnBackPressedDispatcher;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -28,12 +24,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import com.bumptech.glide.Glide;
+import androidx.activity.OnBackPressedCallback;
+import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptionsExtension;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -59,7 +53,30 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         popupRoot = findViewById(R.id.root_home);
         setSupportActionBar(toolbar);
+        // گرفتن View هدر
+        View headerView = navigationView.getHeaderView(0);
+        ImageView profileImage = headerView.findViewById(R.id.profileImage);
+        TextView profileName = headerView.findViewById(R.id.profileName);
+        TextView profileEmail = headerView.findViewById(R.id.profileEmail);
 
+        String userName = "نام کاربر";
+        String userEmail = "user@example.com";
+        String photoUrl = "https://lh3.googleusercontent.com/...";
+
+        profileName.setText(userName);
+
+        Glide.with(this)
+                .load(photoUrl)
+                .placeholder(R.drawable.logo)
+                .circleCrop()
+                .into(profileImage);
+
+        if (userEmail != null && !userEmail.isEmpty()) {
+            profileEmail.setText(userEmail);
+            profileEmail.setVisibility(View.VISIBLE);
+        } else {
+            profileEmail.setVisibility(View.GONE);
+        }
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new HomeFragment()).commit();
@@ -89,9 +106,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-
-
-
         bottomNavigationView.setBackground(null);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
@@ -118,6 +132,8 @@ public class HomeActivity extends AppCompatActivity {
                     replaceFragment(new HomeFragment());
                 } else if (id == R.id.nav_settings) {
                     Toast.makeText(HomeActivity.this, "تنظیمات کلیک شد", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(HomeActivity.this, SettingsActivity.class);
+                        startActivity(intent);
                 } else if (id == R.id.nav_about) {
                     Toast.makeText(HomeActivity.this, "درباره ما کلیک شد", Toast.LENGTH_SHORT).show();
                 }
@@ -125,7 +141,6 @@ public class HomeActivity extends AppCompatActivity {
                 return true;
             }
         });
-
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,6 +155,7 @@ public class HomeActivity extends AppCompatActivity {
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.baseline_menu_24);
         }
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -152,8 +168,9 @@ public class HomeActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    //Outside onCreate
-    private  void replaceFragment(Fragment fragment) {
+
+    // خارج از onCreate
+    private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);
@@ -162,7 +179,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void showBottomDialog() {
-
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.bottomsheetlayout);
@@ -195,13 +211,13 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-
         dialog.show();
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
+
     private void loadFragment(Fragment fragment) {
         popupRoot.setVisibility(View.VISIBLE);
         getSupportFragmentManager()
@@ -210,5 +226,4 @@ public class HomeActivity extends AppCompatActivity {
                 .addToBackStack(null)
                 .commit();
     }
-
 }
