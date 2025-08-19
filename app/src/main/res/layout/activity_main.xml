@@ -87,16 +87,13 @@
                 android:backgroundTint="@color/purple"
                 app:cornerRadius="20dp" />
 
-            <com.google.android.material.button.MaterialButton
+            <com.developer.gbuttons.GoogleSignInButton
                 android:id="@+id/googlebtn"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="ورود با گوگل"
-                app:icon="@drawable/ic_googlelogo"
-            app:iconGravity="textStart"
-            app:iconPadding="8dp"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
-
+                android:layout_gravity="center
+"               android:layout_marginTop="20dp"/>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

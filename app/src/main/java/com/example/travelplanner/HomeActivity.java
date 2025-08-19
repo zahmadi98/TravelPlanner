@@ -60,7 +60,7 @@ public class HomeActivity extends AppCompatActivity {
         TextView profileEmail = headerView.findViewById(R.id.profileEmail);
 
         String userName = "نام کاربر";
-        String userEmail = "user@example.com";
+        String userEmail = " ";
         String photoUrl = "https://lh3.googleusercontent.com/...";
 
         profileName.setText(userName);
@@ -71,7 +71,7 @@ public class HomeActivity extends AppCompatActivity {
                 .circleCrop()
                 .into(profileImage);
 
-        if (userEmail != null && !userEmail.isEmpty()) {
+        if (userEmail != null && !userEmail.trim().isEmpty()) {
             profileEmail.setText(userEmail);
             profileEmail.setVisibility(View.VISIBLE);
         } else {

@@ -12,7 +12,20 @@
           "package_name": "com.example.travelplanner"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "13548437499-0ia7jm6ic5o59mje3biagrb3qrbbek7r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.travelplanner",
+            "certificate_hash": "557f91eea46565e88e4d94096c1e433ef04c04ef"
+          }
+        },
+        {
+          "client_id": "13548437499-dp4509ugpojmt8uq1p4bnte13ap211pt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDwPE79md_dBm2Ro6scAanfLjSmKdNVSm8"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "13548437499-59br0oipc5k8q5um6c1nsnc2uruhiogo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
