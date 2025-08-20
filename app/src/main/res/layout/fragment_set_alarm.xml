@@ -57,6 +57,22 @@
             android:gravity="center_vertical"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="12dp">
+            <EditText
+                android:id="@+id/finishDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edittext2"
+                android:drawableLeft="@drawable/baseline_chevron_left_24"
+                android:textAlignment="center"
+                android:drawableRight="@drawable/baseline_chevron_right_24"
+                android:padding="8dp"
+                android:textSize="14sp"
+                android:hint="تاریخ پایان" />
+
+            <Space
+                android:layout_width="8dp"
+                android:layout_height="wrap_content" />
 
             <EditText
                 android:id="@+id/startDate"
@@ -71,22 +87,8 @@
                 android:textSize="14sp"
                 android:hint="تاریخ شروع" />
 
-            <Space
-                android:layout_width="8dp"
-                android:layout_height="wrap_content" />
 
-            <EditText
-                android:id="@+id/finishDate"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/custom_edittext2"
-                android:drawableLeft="@drawable/baseline_chevron_left_24"
-                android:textAlignment="center"
-                android:drawableRight="@drawable/baseline_chevron_right_24"
-                android:padding="8dp"
-                android:textSize="14sp"
-                android:hint="تاریخ پایان" />
+
         </LinearLayout>
 
         <!-- آلارم -->

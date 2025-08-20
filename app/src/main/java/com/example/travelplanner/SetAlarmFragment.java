@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -64,7 +65,13 @@ public class SetAlarmFragment extends Fragment {
         loadTrips();
         setupTripDropdown();
 
-        choseTrip.setOnClickListener(v -> choseTrip.showDropDown());
+        choseTrip.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_UP && !choseTrip.isPopupShowing()) {
+                choseTrip.showDropDown();
+                return true;
+            }
+            return false;
+        });
 
         btnSubmitTrip.setOnClickListener(v -> submitForm());
     }

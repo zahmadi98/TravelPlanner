@@ -1,64 +1,126 @@
 package com.example.travelplanner;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link FavoriteFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+
 public class FavoriteFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private RecyclerView recyclerView;
+    private FavoriteAdapter adapter;
+    private ArrayList<FavoritePhoto> photoList = new ArrayList<>();
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public FavoriteFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FavoriteFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FavoriteFragment newInstance(String param1, String param2) {
-        FavoriteFragment fragment = new FavoriteFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    private View emptyView;
+    private View listContainer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_favorite, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        recyclerView   = view.findViewById(R.id.recyclerFavorite);
+        emptyView      = view.findViewById(R.id.emptyView);
+        listContainer  = view.findViewById(R.id.photoListContainer);
+
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        adapter = new FavoriteAdapter(photoList);
+        recyclerView.setAdapter(adapter);
+
+        loadPhotos();
+        toggleEmptyView();
+
+        // هر بار که از UploadPhotoFragment برگشتیم، لیست را تازه کنیم
+        getParentFragmentManager()
+                .setFragmentResultListener("newPhoto", getViewLifecycleOwner(),
+                        (requestKey, result) -> {
+                            loadPhotos();
+                            adapter.notifyDataSetChanged();
+                            toggleEmptyView();
+                        });
+    }
+
+    private void loadPhotos() {
+        SharedPreferences prefs = requireContext()
+                .getSharedPreferences("FAVORITE_PHOTOS", Context.MODE_PRIVATE);
+        String json = prefs.getString("list", null);
+        if (json != null) {
+            Type type = new TypeToken<ArrayList<FavoritePhoto>>() {}.getType();
+            photoList.clear();
+            photoList.addAll(new Gson().fromJson(json, type));
+        }
+    }
+
+    private void toggleEmptyView() {
+        if (photoList.isEmpty()) {
+            emptyView.setVisibility(View.VISIBLE);
+            listContainer.setVisibility(View.GONE);
+        } else {
+            emptyView.setVisibility(View.GONE);
+            listContainer.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /* ---------- Adapter ---------- */
+    private static class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Holder> {
+
+        private final ArrayList<FavoritePhoto> data;
+
+        FavoriteAdapter(ArrayList<FavoritePhoto> data) { this.data = data; }
+
+        @NonNull
+        @Override
+        public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_favorite_photo, parent, false);
+            return new Holder(v);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull Holder holder, int position) {
+            FavoritePhoto item = data.get(position);
+            holder.txtName.setText(item.getTripName());
+            Glide.with(holder.itemView.getContext())
+                    .load(Uri.parse(item.getPhotoUri()))
+                    .into(holder.imgPhoto);
+        }
+
+        @Override
+        public int getItemCount() { return data.size(); }
+
+        static class Holder extends RecyclerView.ViewHolder {
+            ImageView imgPhoto;
+            TextView txtName;
+
+            Holder(@NonNull View itemView) {
+                super(itemView);
+                imgPhoto = itemView.findViewById(R.id.imgFavorite);
+                txtName  = itemView.findViewById(R.id.txtTripName);
+            }
+        }
     }
 }
