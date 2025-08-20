@@ -25,12 +25,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import com.bumptech.glide.Glide;
-import androidx.activity.OnBackPressedCallback;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class HomeActivity extends AppCompatActivity {
     FloatingActionButton fab;
@@ -52,30 +52,41 @@ public class HomeActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         popupRoot = findViewById(R.id.root_home);
-        setSupportActionBar(toolbar);
+
         // گرفتن View هدر
         View headerView = navigationView.getHeaderView(0);
         ImageView profileImage = headerView.findViewById(R.id.profileImage);
         TextView profileName = headerView.findViewById(R.id.profileName);
         TextView profileEmail = headerView.findViewById(R.id.profileEmail);
 
-        String userName = "نام کاربر";
-        String userEmail = " ";
-        String photoUrl = "https://lh3.googleusercontent.com/...";
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        profileName.setText(userName);
+        if (currentUser != null) {
+            // ست کردن نام
+            if (currentUser.getDisplayName() != null) {
+                profileName.setText(currentUser.getDisplayName());
+            } else {
+                profileName.setText("کاربر ناشناس");
+            }
 
-        Glide.with(this)
-                .load(photoUrl)
-                .placeholder(R.drawable.logo)
-                .circleCrop()
-                .into(profileImage);
+            // ست کردن ایمیل
+            if (currentUser.getEmail() != null) {
+                profileEmail.setText(currentUser.getEmail());
+                profileEmail.setVisibility(View.VISIBLE);
+            } else {
+                profileEmail.setVisibility(View.GONE);
+            }
 
-        if (userEmail != null && !userEmail.trim().isEmpty()) {
-            profileEmail.setText(userEmail);
-            profileEmail.setVisibility(View.VISIBLE);
-        } else {
-            profileEmail.setVisibility(View.GONE);
+            // ست کردن عکس پروفایل
+            if (currentUser.getPhotoUrl() != null) {
+                Glide.with(this)
+                        .load(currentUser.getPhotoUrl().toString())
+                        .placeholder(R.drawable.logo)
+                        .circleCrop()
+                        .into(profileImage);
+            } else {
+                profileImage.setImageResource(R.drawable.logo);
+            }
         }
 
         if (savedInstanceState == null) {

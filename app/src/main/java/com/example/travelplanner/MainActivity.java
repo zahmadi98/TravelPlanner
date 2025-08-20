@@ -70,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
         EditText passwordInput = findViewById(R.id.password);
         Button loginButton = findViewById(R.id.loginbutton);
         GoogleSignInButton googleBtn = findViewById(R.id.googlebtn);
+        TextView signinText = findViewById(R.id.signinText);
+
 
         /* ورود معمولی */
         loginButton.setOnClickListener(v -> {
@@ -86,6 +88,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
         googleBtn.setOnClickListener(v -> signInWithGoogle());
+        /* انتقال به صفحه ثبت‌نام */
+        signinText.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SignupActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void initGoogleSignIn() {

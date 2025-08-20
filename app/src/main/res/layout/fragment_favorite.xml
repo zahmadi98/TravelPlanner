@@ -16,8 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:gravity="center_horizontal"
-            android:background="@android:color/white">
+            android:gravity="center_horizontal">
 
             <!-- تصویر وسط صفحه با 40٪ اندازه -->
             <ImageView
@@ -31,16 +30,16 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="عکس ها"
+                android:text="هیچ عکسی وارد نشده است"
                 android:gravity="center"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 android:textColor="@color/gray" />
         </LinearLayout>
 
 
         <!-- بخش نمایش لیست سفرها که اول مخفی هست -->
         <LinearLayout
-            android:id="@+id/alarmListContainer"
+            android:id="@+id/photoListContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"

@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="180dp"
+    android:layout_height="170dp"
     android:padding="20dp"
     android:background="@drawable/headerbkg"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
@@ -17,19 +17,19 @@
         android:src="@drawable/logo"
         android:background="@drawable/circle_background"
         android:padding="2dp"
-        android:layout_marginBottom="5dp"/>
+        android:layout_marginBottom="3dp"/>
 
     <!-- نام کاربر -->
     <TextView
         android:id="@+id/profileName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="پلنر سفر"
+        android:text="تریپ پلنر"
         android:textColor="@color/white"
-        android:textSize="18sp"
+        android:textSize="15sp"
         android:paddingLeft="6dp"
         android:textStyle="bold"
-        android:layout_marginBottom="4dp"/>
+        android:layout_marginBottom="2dp"/>
 
     <!-- ایمیل کاربر -->
     <TextView
@@ -38,6 +38,6 @@
         android:layout_height="wrap_content"
         android:text="example@email.com"
         android:textColor="@color/white"
-        android:textSize="14sp"
+        android:textSize="11sp"
         android:visibility="gone"/>
 </LinearLayout>

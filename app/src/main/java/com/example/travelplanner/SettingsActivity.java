@@ -25,7 +25,6 @@ public class SettingsActivity extends AppCompatActivity {
 
         logoutBtn = findViewById(R.id.btnLogout);
 
-        // ایجاد client برای Google Identity Services
         oneTapClient = Identity.getSignInClient(this);
 
         logoutBtn.setOnClickListener(v -> {
@@ -39,8 +38,6 @@ public class SettingsActivity extends AppCompatActivity {
                             FirebaseAuth.getInstance().signOut();
 
                             Toast.makeText(SettingsActivity.this, "با موفقیت خارج شدید", Toast.LENGTH_SHORT).show();
-
-                            // برو به صفحه لاگین و کل استک رو پاک کن
                             Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
@@ -50,6 +47,5 @@ public class SettingsActivity extends AppCompatActivity {
                     .setNegativeButton("خیر", null)
                     .show();
         });
-
     }
 }
