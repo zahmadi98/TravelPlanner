@@ -1,5 +1,6 @@
 package com.example.travelplanner;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
 import com.google.android.gms.auth.api.identity.Identity;
 import com.google.android.gms.auth.api.identity.SignInClient;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -31,14 +33,23 @@ public class SettingsActivity extends AppCompatActivity {
                     .setTitle("خروج از حساب")
                     .setMessage("آیا مطمئن هستید که می‌خواهید خارج شوید؟")
                     .setPositiveButton("بله", (dialog, which) -> {
-                        // خروج از حساب با Google Identity Services
+                        // خروج از گوگل
                         oneTapClient.signOut().addOnCompleteListener(task -> {
+                            // خروج از Firebase
+                            FirebaseAuth.getInstance().signOut();
+
                             Toast.makeText(SettingsActivity.this, "با موفقیت خارج شدید", Toast.LENGTH_SHORT).show();
-                            finish(); // برگرد به صفحه قبلی (HomeActivity)
+
+                            // برو به صفحه لاگین و کل استک رو پاک کن
+                            Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            finishAffinity();
                         });
                     })
                     .setNegativeButton("خیر", null)
                     .show();
         });
+
     }
 }
