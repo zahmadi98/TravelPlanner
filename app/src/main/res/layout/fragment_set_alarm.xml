@@ -28,24 +28,42 @@
             android:layout_marginTop="10dp"
             android:padding="8dp"
             android:textSize="14sp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="10dp"
             android:hint="سفر خود را انتخاب کنید" />
 
+        <!-- عنوان آلارم -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="عنوان آلارم:"
+            android:layout_marginTop="12dp"
+            android:textColor="@color/purple_700"
+            android:textSize="16sp"
+            android:layout_gravity="end" />
 
+        <EditText
+            android:id="@+id/edtAlarmTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/custom_edittext2"
+            android:hint="مثلاً «یادآوری وسایل»"
+            android:padding="8dp"
+            android:textSize="14sp"/>
         <!-- خط جداکننده -->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="20dp"
             android:background="@android:color/darker_gray"
-            android:layout_marginBottom="12dp" />
+            android:layout_marginBottom="10dp" />
 
         <!-- انتخاب تاریخ -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="انتخاب تاریخ:"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:textColor="@color/purple_700"
             android:textSize="16sp"
             android:layout_gravity="end" />
@@ -97,7 +115,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="10dp">
 
             <EditText
                 android:id="@+id/timeEditText"
@@ -133,7 +151,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="ثبت آلارم"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:textSize="18sp"
             android:padding="10dp"
             android:background="@drawable/custom_edittext"

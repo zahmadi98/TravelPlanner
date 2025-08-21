@@ -65,7 +65,8 @@ public class AlarmsFragment extends Fragment {
                 Alarm alarm = alarmList.get(i);
 
                 View alarmView = inflater.inflate(R.layout.alarm_item, alarmListContainer, false);
-
+                TextView alarmTitle = alarmView.findViewById(R.id.alarmTitle);
+                alarmTitle.setText(alarm.getAlarmTitle());
                 TextView tripName = alarmView.findViewById(R.id.tripName);
                 TextView startDate = alarmView.findViewById(R.id.startDate);
                 TextView finishDate = alarmView.findViewById(R.id.finishDate);

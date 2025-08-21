@@ -5,7 +5,7 @@
     android:orientation="horizontal"
     android:padding="12dp"
     android:layout_marginBottom="10dp"
-    android:background="@drawable/custom_edittext">
+    android:background="@drawable/formitem">
 
     <!-- سطل آشغال سمت چپ -->
     <ImageView
@@ -27,28 +27,46 @@
         android:paddingStart="8dp">
 
         <TextView
+            android:id="@+id/alarmTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginBottom="8dp"
+            android:text="عنوان"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+        <TextView
             android:id="@+id/tripName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="نام سفر" />
+            android:text="نام سفر"
+            android:textSize="12sp"
+            android:textColor="@color/black"/>
 
         <TextView
             android:id="@+id/startDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="شروع" />
+            android:text="شروع"
+            android:textSize="12sp"
+            android:textColor="@color/black"/>
 
         <TextView
             android:id="@+id/finishDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="پایان" />
+            android:text="پایان"
+            android:textSize="12sp"
+            android:textColor="@color/black"/>
 
         <TextView
             android:id="@+id/timeEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ساعت" />
+            android:text="ساعت"
+            android:textSize="12sp"
+            android:textColor="@color/black"/>
     </LinearLayout>
 
 </LinearLayout>
