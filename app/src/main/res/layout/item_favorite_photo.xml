@@ -12,12 +12,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <!-- عکس -->
         <ImageView
             android:id="@+id/imgFavorite"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:scaleType="centerCrop" />
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:minHeight="120dp"
+            android:background="@android:color/darker_gray" />
 
+        <!-- نام سفر -->
         <TextView
             android:id="@+id/txtTripName"
             android:layout_width="match_parent"
@@ -26,5 +31,33 @@
             android:padding="6dp"
             android:textSize="14sp"
             android:textColor="@android:color/black" />
+
+        <!-- نوار دوطرفه: سطل چپ، تاریخ راست -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="4dp">
+
+            <!-- سطل آشغال سمت چپ -->
+            <ImageView
+                android:id="@+id/btnDelete"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/baseline_delete_24"
+                android:contentDescription="حذف" />
+
+            <!-- تاریخ سمت راست -->
+            <TextView
+                android:id="@+id/txtDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:textSize="12sp"
+                android:textColor="@android:color/darker_gray"
+                android:text="تاریخ" />
+        </RelativeLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

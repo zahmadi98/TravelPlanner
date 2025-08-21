@@ -23,6 +23,10 @@ import androidx.fragment.app.Fragment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +54,6 @@ public class UploadPhotoFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // بستن با کلیک روی پس‌زمینه
         View background = requireActivity().findViewById(R.id.root_home);
         if (background != null) {
             background.setOnClickListener(v -> {
@@ -59,7 +62,6 @@ public class UploadPhotoFragment extends Fragment {
             });
         }
 
-        // init views
         choseTrip      = view.findViewById(R.id.choseTrip);
         uploadIcon     = view.findViewById(R.id.uploadIcon);
         uploadedImage  = view.findViewById(R.id.uploadedImage);
@@ -106,12 +108,34 @@ public class UploadPhotoFragment extends Fragment {
 
     private void onPhotoSelected(Uri uri) {
         if (uri == null) return;
-        currentPhotoUri = uri;
-        uploadedImage.setImageURI(uri);
-        uploadIcon.setVisibility(View.GONE);
-        uploadedImage.setVisibility(View.VISIBLE);
-        uploadProgressBar.setProgress(0);
-        startFakeUpload();
+        Uri permanentUri = saveImageToInternalStorage(uri);
+        if (permanentUri != null) {
+            currentPhotoUri = permanentUri;
+            uploadedImage.setImageURI(currentPhotoUri);
+            uploadIcon.setVisibility(View.GONE);
+            uploadedImage.setVisibility(View.VISIBLE);
+            uploadProgressBar.setProgress(0);
+            startFakeUpload();
+        }
+    }
+
+    private Uri saveImageToInternalStorage(Uri sourceUri) {
+        try (InputStream in = requireContext().getContentResolver().openInputStream(sourceUri)) {
+            File dir = new File(requireContext().getFilesDir(), "favorite_images");
+            if (!dir.exists()) dir.mkdirs();
+            File file = new File(dir, "img_" + System.currentTimeMillis() + ".jpg");
+            try (FileOutputStream out = new FileOutputStream(file)) {
+                byte[] buffer = new byte[1024];
+                int len;
+                while ((len = in.read(buffer)) > 0) {
+                    out.write(buffer, 0, len);
+                }
+            }
+            return Uri.fromFile(file);
+        } catch (IOException e) {
+            Toast.makeText(getContext(), "خطا در ذخیره عکس", Toast.LENGTH_SHORT).show();
+            return null;
+        }
     }
 
     private void startFakeUpload() {
@@ -149,14 +173,11 @@ public class UploadPhotoFragment extends Fragment {
 
         Toast.makeText(getContext(), "ذخیره شد", Toast.LENGTH_SHORT).show();
 
-        // اطلاع‌رسانی به FavoriteFragment
         requireActivity().getSupportFragmentManager()
                 .setFragmentResult("newPhoto", new Bundle());
 
         View popupRoot = getActivity().findViewById(R.id.root_home);
-        if (popupRoot != null) {
-            popupRoot.setVisibility(View.GONE);
-        }
+        if (popupRoot != null) popupRoot.setVisibility(View.GONE);
         getParentFragmentManager().popBackStack();
     }
 }

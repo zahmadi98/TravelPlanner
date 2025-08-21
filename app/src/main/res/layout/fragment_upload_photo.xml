@@ -2,16 +2,13 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:inputType="none"
-    android:focusable="false"
-    android:clickable="true">
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="12dp"
-        android:gravity="center_vertical">
+        android:padding="12dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -33,90 +30,77 @@
             android:layout_marginBottom="12dp"
             android:hint="سفر خود را انتخاب کنید" />
 
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:padding="16dp"
+        <!-- کادر آپلود -->
+        <FrameLayout
+            android:id="@+id/uploadBox"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/upload_box_border"
+            android:padding="8dp"
+            android:minHeight="230dp">
 
-            <!-- مربع آپلود عکس -->
-            <FrameLayout
-                android:id="@+id/uploadBox"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/upload_box_border"
-                android:padding="8dp"
-                android:layout_marginBottom="16dp">
+        <!-- آیکن آپلود -->
+            <ImageView
+                android:id="@+id/uploadIcon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:src="@drawable/baseline_drive_folder_upload_24" />
 
-                <!-- لوگوی آپلود عکس وسط -->
-                <ImageView
-                    android:id="@+id/uploadIcon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/baseline_drive_folder_upload_24" />
-
-                <!-- عکس انتخاب شده (اولش مخفی) -->
-                <ImageView
-                    android:id="@+id/uploadedImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:visibility="gone" />
-            </FrameLayout>
-
-            <!-- دکمه انتخاب عکس -->
-            <LinearLayout
+            <!-- عکس انتخاب شده -->
+            <ImageView
+                android:id="@+id/uploadedImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="5dp"
-                android:gravity="center"
-                android:weightSum="2">
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:minHeight="200dp"
+                android:visibility="gone" />
+        </FrameLayout>
 
-                <Button
-                    android:id="@+id/btnSubmitPhoto"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:padding="10dp"
-                    android:background="@drawable/custom_edittext"
-                    android:text="ثبت عکس"
-                    android:textColor="@color/white"
-                    android:layout_marginEnd="8dp"/>
+        <!-- دکمه‌ها -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:weightSum="2">
 
-                <Button
-                    android:id="@+id/btnChoosePhoto"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:padding="10dp"
-                    android:background="@drawable/custom_edittext"
-                    android:text="انتخاب عکس"
-                    android:textColor="@color/white"
+            <Button
+                android:id="@+id/btnSubmitPhoto"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="ثبت عکس"
+                android:textSize="18sp"
+                android:padding="10dp"
+                android:background="@drawable/custom_edittext"
+                android:textColor="@color/white"
+                android:layout_marginEnd="8dp" />
 
-                    android:layout_marginStart="8dp" />
-
-
-
-            </LinearLayout>
-
-
-            <!-- نوار پیشرفت آپلود -->
-            <ProgressBar
-                android:id="@+id/uploadProgressBar"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:layout_marginTop="15dp"
-                android:progress="0"
-                android:progressTint="#3F51B5"
-                android:background="#CCCCCC" />
-
+            <Button
+                android:id="@+id/btnChoosePhoto"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="انتخاب عکس"
+                android:textSize="18sp"
+                android:padding="10dp"
+                android:background="@drawable/custom_edittext"
+                android:textColor="@color/white"
+                android:layout_marginStart="8dp" />
         </LinearLayout>
+
+        <!-- نوار پیشرفت -->
+        <ProgressBar
+            android:id="@+id/uploadProgressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_marginTop="15dp"
+            android:progress="0"
+            android:progressTint="#3F51B5"
+            android:background="#CCCCCC" />
     </LinearLayout>
 </ScrollView>
