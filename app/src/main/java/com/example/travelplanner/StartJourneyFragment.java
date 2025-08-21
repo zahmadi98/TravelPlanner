@@ -1,5 +1,7 @@
 package com.example.travelplanner;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -14,6 +16,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
 
 public class StartJourneyFragment extends Fragment {
 
@@ -82,12 +88,30 @@ public class StartJourneyFragment extends Fragment {
             int tripPeopleCount = Integer.parseInt(editTextPeopleCount.getText().toString().trim());
             String tripDestination = editTextDestination.getText().toString().trim();
 
+            // ✅ گرفتن آیتم‌های لیست کارها (to-do)
+            ArrayList<String> toDoItems = new ArrayList<>();
+            for (int i = 0; i < itemsContainer.getChildCount(); i++) {
+                LinearLayout itemLayout = (LinearLayout) itemsContainer.getChildAt(i);
+                EditText textView = (EditText) itemLayout.getChildAt(0); // متن هر آیتم
+                toDoItems.add(textView.getText().toString().trim());
+            }
+
+            // ذخیره در SharedPreferences
+            SharedPreferences prefs = requireContext().getSharedPreferences("travel_prefs", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            Gson gson = new Gson(); // برای تبدیل لیست به JSON
+            String json = gson.toJson(toDoItems);
+            editor.putString("equipmentList_" + tripName, json); // کلید اختصاصی بر اساس نام سفر
+            editor.apply();
+
             Bundle result = new Bundle();
             result.putString("tripName", tripName);
             result.putString("tripDescription", tripDescription);
             result.putInt("tripPeopleCount", tripPeopleCount);
             result.putString("tripDestination", tripDestination);
+            result.putStringArrayList("equipmentList", toDoItems);
             getParentFragmentManager().setFragmentResult("newTrip", result);
+            getParentFragmentManager().setFragmentResult("equipmentTrip", result);
 
             View popupRoot = getActivity().findViewById(R.id.root_home);
             if (popupRoot != null) {

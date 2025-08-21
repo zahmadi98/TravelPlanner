@@ -147,6 +147,8 @@ public class HomeActivity extends AppCompatActivity {
                         startActivity(intent);
                 } else if (id == R.id.nav_about) {
                     Toast.makeText(HomeActivity.this, "درباره ما کلیک شد", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(HomeActivity.this, AboutActivity.class);
+                    startActivity(intent);
                 }
                 drawerLayout.closeDrawer(GravityCompat.END);
                 return true;
