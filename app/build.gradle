@@ -6,6 +6,7 @@ plugins {
 android {
     namespace = 'com.example.travelplanner'
     compileSdk = 36
+    buildToolsVersion = "36.0.0"  // Added according my buildTool version
 
     defaultConfig {
         applicationId = "com.example.travelplanner"

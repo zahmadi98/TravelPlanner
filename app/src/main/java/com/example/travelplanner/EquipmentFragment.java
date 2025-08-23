@@ -24,9 +24,11 @@ import java.util.ArrayList;
 public class EquipmentFragment extends Fragment {
 
     private LinearLayout equipmentContainer;
+    private View emptyView;
+    private SharedPreferences prefs;
 
     public EquipmentFragment() {
-        // Required empty public constructor
+// Required empty public constructor
     }
 
     @Nullable
@@ -43,52 +45,82 @@ public class EquipmentFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         equipmentContainer = view.findViewById(R.id.equipmentListContainer);
+        emptyView = view.findViewById(R.id.emptyView);
+        prefs = requireContext().getSharedPreferences("travel_prefs", Context.MODE_PRIVATE);
 
-        // دریافت اطلاعات سفر
-        getParentFragmentManager()
-                .setFragmentResultListener("equipmentTrip", this, (requestKey, bundle) -> {
-                    String tripName = bundle.getString("tripName");
+// 📌 اگر آخرین سفر ذخیره شده‌ای داریم، دوباره بارگذاری کن
+        String lastTripName = prefs.getString("last_trip", null);
+        if (lastTripName != null) {
+            loadEquipmentList(lastTripName);
+        }
 
-                    // مخفی کردن emptyView
-                    View emptyView = view.findViewById(R.id.emptyView);
-                    emptyView.setVisibility(View.GONE);
+// 📌 وقتی از StartJourneyFragment نتیجه بیاد
+        getParentFragmentManager().setFragmentResultListener("equipmentTrip", this, (requestKey, bundle) -> {
+            String tripName = bundle.getString("tripName");
 
-                    equipmentContainer.setVisibility(View.VISIBLE);
+// ذخیره کن که این آخرین سفر بوده
+            prefs.edit().putString("last_trip", tripName).apply();
 
-                    // نمایش نام سفر
-                    TextView title = new TextView(requireContext());
-                    title.setTextSize(18);
-                    title.setText(tripName);
-                    title.setPadding(8, 16, 8, 8);
-                    equipmentContainer.addView(title);
+            loadEquipmentList(tripName);
+        });
+    }
 
-                    // گرفتن لیست از SharedPreferences
-                    SharedPreferences prefs = requireContext().getSharedPreferences("travel_prefs", Context.MODE_PRIVATE);
-                    String json = prefs.getString("equipmentList_" + tripName, null);
-                    ArrayList<String> equipmentList = new ArrayList<>();
-                    if (json != null) {
-                        Gson gson = new Gson();
-                        Type type = new TypeToken<ArrayList<String>>(){}.getType();
-                        equipmentList = gson.fromJson(json, type);
-                    }
+    /**
+     * متد لود کردن لیست تجهیزات یک سفر
+     */
+    private void loadEquipmentList(String tripName) {
+// پاک کردن ویوهای قبلی
+        equipmentContainer.removeAllViews();
 
-                    // نمایش آیتم‌ها با todo_item.xml
-                    LayoutInflater inflater = LayoutInflater.from(requireContext());
-                    for (String itemText : equipmentList) {
-                        View itemView = inflater.inflate(R.layout.todo_item, equipmentContainer, false);
+        emptyView.setVisibility(View.GONE);
+        equipmentContainer.setVisibility(View.VISIBLE);
 
-                        CheckBox checkBox = itemView.findViewById(R.id.todoCheckBox);
-                        TextView textView = itemView.findViewById(R.id.todoText);
-                        ImageView deleteIcon = itemView.findViewById(R.id.todoDeleteIcon);
+// نمایش نام سفر
+        TextView title = new TextView(requireContext());
+        title.setTextSize(18);
+        title.setText(tripName);
+        title.setPadding(8, 16, 8, 8);
+        equipmentContainer.addView(title);
 
-                        textView.setText(itemText);
+// گرفتن لیست تجهیزات از SharedPreferences
+        String json = prefs.getString("equipmentList_" + tripName, null);
+        ArrayList<String> equipmentList = new ArrayList<>();
+        if (json != null) {
+            Gson gson = new Gson();
+            Type type = new TypeToken<ArrayList<String>>() {}.getType();
+            equipmentList = gson.fromJson(json, type);
+        }
 
-                        deleteIcon.setOnClickListener(v -> equipmentContainer.removeView(itemView));
+// ساخت آیتم‌ها با todo_item.xml
+        LayoutInflater inflater = LayoutInflater.from(requireContext());
+        ArrayList<String> finalEquipmentList = new ArrayList<>(equipmentList);
 
-                        equipmentContainer.addView(itemView);
-                    }
-                });
+        for (String itemText : equipmentList) {
+            View itemView = inflater.inflate(R.layout.todo_item, equipmentContainer, false);
 
+            CheckBox checkBox = itemView.findViewById(R.id.todoCheckBox);
+            TextView textView = itemView.findViewById(R.id.todoText);
+            ImageView deleteIcon = itemView.findViewById(R.id.todoDeleteIcon);
 
+            textView.setText(itemText);
+
+// حذف آیتم و آپدیت SharedPreferences
+            deleteIcon.setOnClickListener(v -> {
+                equipmentContainer.removeView(itemView);
+                finalEquipmentList.remove(itemText);
+
+                Gson gson = new Gson();
+                String updatedJson = gson.toJson(finalEquipmentList);
+                prefs.edit().putString("equipmentList_" + tripName, updatedJson).apply();
+
+// اگر لیست خالی شد، emptyView نشون بده
+                if (finalEquipmentList.isEmpty()) {
+                    equipmentContainer.setVisibility(View.GONE);
+                    emptyView.setVisibility(View.VISIBLE);
+                }
+            });
+
+            equipmentContainer.addView(itemView);
+        }
     }
 }
